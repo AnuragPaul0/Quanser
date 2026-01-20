@@ -1,0 +1,2 @@
+    quarc_sine_scope_demo.c
+

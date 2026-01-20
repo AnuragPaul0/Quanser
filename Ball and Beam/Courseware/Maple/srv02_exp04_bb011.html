@@ -1,0 +1,3261 @@
+<head>
+<title>srv02_exp04_bb01.html</title>
+<!-- Created by Maple 9.03, IBM INTEL NT -->
+</head>
+<body bgcolor="FFFFFF">
+<basefont size="3">
+<a name="MapleAutoBookmark1" />
+<p align="left">
+<b><font color="#000000" size="5">SRV02 Experiment #4: Ball and Beam Position Control</font></b>
+</p>
+<p align="left">
+<font color="#000000">This Maple worksheet designs a proportional-velocity controller to regular the load angle position to a desired setpoint.</font>
+</p>
+<p align="left">
+<font color="#000000">Clear Maple workspace.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">restart; interface( imaginaryunit = j ):</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<font color="#000000">Load library to perform Laplace operations</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">with(inttrans):</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<font color="#000000">Laplace of SRV02 load angle</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">alias( X(s) = laplace( x(t), t, s ) ):</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">alias( Theta[l](s) = laplace( theta[l](t), t, s ) ):</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">alias( Theta[d](s) = laplace( theta[d](t), t, s ) ):</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">alias( V[m](s) = laplace( V[m](t), t, s ) ):</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"></td></tr>
+</table>
+</p>
+<dl><a name="MapleAutoBookmark2" />
+<p align="left">
+<b><font color="#000000" size="5">Pre-Lab</font></b>
+</p>
+<dl><a name="MapleAutoBookmark3" />
+<p align="left">
+<b><font color="#000000" size="4">Modeling</font></b>
+</p>
+<dl><a name="MapleAutoBookmark4" />
+<p align="left">
+<i><b><font color="#000000">Introduction</font></b></i>
+</p>
+<p align="left">
+</p>
+<p align="left">
+<font color="#000000">SRV02+BB01 Transfer Function</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">tf_srv02_bb01 := P(s) = P[bb](s)*P[s](s):<br />
+tf_srv02_bb01;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb011.gif" width="148" height="27" alt="P(s) = P[bb](s)*P[s](s)" />
+</p>
+<p align="left">
+<font color="#000000">BB01 Transfer Function</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">tf_bb01_gen := P[bb](s) = X(s) / Theta[l](s):<br />
+tf_bb01_gen;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb012.gif" width="119" height="52" alt="P[bb](s) = X(s)/Theta[l](s)" />
+</p>
+<p align="left">
+<font color="#000000">SRV02 Transfer Function</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">tf_srv02_gen := P[s](s) = Theta[l](s) / V[m](s):<br />
+tf_srv02_gen;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb013.gif" width="115" height="59" alt="P[s](s) = Theta[l](s)/V[m](s)" />
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"></td></tr>
+</table>
+</p>
+</dl><p align="left">
+</p>
+<dl><a name="MapleAutoBookmark5" />
+<p align="left">
+<i><b><font color="#000000">SRV02 Position Model</font></b></i>
+</p>
+<p align="left">
+<font color="#000000">Transfer function that represents the position of the SRV02 load gear relative to the input voltage.</font>
+</p>
+<p align="left">
+<font color="#000000">Process transfer function</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">tf_plant_pos := P[s](s) = K/(tau*s+1)/s:<br />
+tf_plant_pos;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb014.gif" width="139" height="45" alt="P[s](s) = K/(tau*s+1)/s" />
+</p>
+<p align="left">
+<font color="#000000">With output and input variables</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">tf_pos_vm := Theta[l](s) = rhs(tf_plant_pos) * V[m](s):<br />
+tf_pos_vm;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb015.gif" width="139" height="52" alt="Theta[l](s) = K/(tau*s+1)/s*V[m](s)" />
+</p>
+<p align="left">
+<font color="#000000">Model parameters for SRV02-ET in high-gear configuration with no load</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">MDL_PRM_SRV02 := { K = 1.7588, tau = 0.0285 };</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb016.gif" width="327" height="20" alt="MDL_PRM_SRV02 := {K = 1.7588, tau = .285e-1}" />
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"></td></tr>
+</table>
+</p>
+<p align="left">
+</p>
+</dl><dl><a name="MapleAutoBookmark6" />
+<p align="left">
+<i><b><font color="#000000">BB01 Model</font></b></i>
+</p>
+<p align="left">
+<font color="#000000">Ball-and-beam model describes the position of the ball with respect to the angle of the beam relative to the horizontal.</font>
+</p>
+<dl><a name="MapleAutoBookmark7" />
+<p align="left">
+<i><b><font color="#000000" size="2">Ball Position Relative to Beam Angle</font></b></i>
+</p>
+<p align="left">
+</p>
+<p align="left">
+<font color="#000000">EOM of the form</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">EOM_X_ALPHA_GEN := diff(x(t),t$2) = f(alpha(t)):<br />
+EOM_X_ALPHA_GEN;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb017.gif" width="133" height="63" alt="diff(x(t),`$`(t,2)) = f(alpha(t))" />
+</p>
+<p align="left">
+<font color="#000000">Newton's First Law of Motion</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">F_SUM := m[b]*diff(x(t),t$2) = Sum(F):<br />
+F_SUM;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb018.gif" width="159" height="63" alt="m[b]*diff(x(t),`$`(t,2)) = Sum(F)" />
+</p>
+<p align="left">
+<font color="#000000">Forces acting on ball alongside the beam</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">FX := m[b]*diff(x(t),t$2) = F[x,t] - F[x,r]:<br />
+FX;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb019.gif" width="205" height="63" alt="m[b]*diff(x(t),`$`(t,2)) = F[x,t]-F[x,r]" />
+</p>
+<p align="left">
+<font color="#000000">Translational gravitational force</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">FX_T := F[x,t] = m[b]*g*sin(alpha(t)):<br />
+FX_T;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0110.gif" width="160" height="27" alt="F[x,t] = m[b]*g*sin(alpha(t))" />
+</p>
+<p align="left">
+<font color="#000000">Rotational force from ball momentum</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">FX_R_GEN := F[x,r] = tau[b] / r[b]:<br />
+FX_R_GEN;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0111.gif" width="84" height="59" alt="F[x,r] = tau[b]/r[b]" />
+</p>
+<p align="left">
+<font color="#000000">Torque acting on ball</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">TAU_B := tau[b] = J[b]*diff(gamma[b](t),t$2):<br />
+TAU_B;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0112.gif" width="143" height="63" alt="tau[b] = J[b]*diff(gamma[b](t),`$`(t,2))" />
+</p>
+<p align="left">
+<font color="#000000">Relationship between rotation of ball and linear displacement</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">GAMMA_TO_X := x(t) = gamma[b](t)*r[b]:<br />
+GAMMA_TO_X;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0113.gif" width="111" height="27" alt="x(t) = gamma[b](t)*r[b]" />
+</p>
+<p align="left">
+<font color="#000000">Re-arrange</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">X_TO_GAMMA := gamma[b](t) = solve(GAMMA_TO_X,gamma[b](t)):<br />
+X_TO_GAMMA;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0114.gif" width="97" height="52" alt="gamma[b](t) = x(t)/r[b]" />
+</p>
+<p align="left">
+<font color="#000000">Put ball torque relative to linear position</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">TAU_B_X := subs(X_TO_GAMMA,TAU_B):<br />
+TAU_B_X;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0115.gif" width="139" height="95" alt="tau[b] = J[b]*diff(x(t),`$`(t,2))/r[b]" />
+</p>
+<p align="left">
+<font color="#000000">Rotational force</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">FX_R := subs(TAU_B_X,FX_R_GEN):<br />
+FX_R;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0116.gif" width="156" height="97" alt="F[x,r] = J[b]*diff(x(t),`$`(t,2))/r[b]^2" />
+</p>
+<p align="left">
+<font color="#000000">Insert translational and rotational forces</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">FX_EXP := subs(FX_T,FX_R,FX):<br />
+FX_EXP;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0117.gif" width="329" height="97" alt="m[b]*diff(x(t),`$`(t,2)) = m[b]*g*sin(alpha(t))-J[b]*diff(x(t),`$`(t,2))/r[b]^2" />
+</p>
+<p align="left">
+<font color="#000000">EOM of x relative to </font>
+<img src="images/srv02_exp04_bb0118.gif" width="27" height="32" alt="alpha" align="middle" />
+<font color="#000000">.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">EOM_X_ALPHA := diff(x(t),t$2) = solve(FX_EXP,diff(x(t),t$2)):<br />
+EOM_X_ALPHA;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0119.gif" width="212" height="63" alt="diff(x(t),`$`(t,2)) = m[b]*g*sin(alpha(t))*r[b]^2/(m[b]*r[b]^2+J[b])" />
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"></td></tr>
+</table>
+</p>
+</dl><dl><a name="MapleAutoBookmark8" />
+<p align="left">
+<i><b><font color="#000000" size="2">Ball Position Relative to SRV02 Angle</font></b></i>
+</p>
+<p align="left">
+<font color="#000000">The EOM describing the position of the ball with respect to the rotary servo angle.</font>
+</p>
+<p align="left">
+<font color="#000000">Beam trig</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">TRIG_BEAM := sin(alpha(t)) = h / L[beam]:<br />
+TRIG_BEAM;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0120.gif" width="141" height="52" alt="sin(alpha(t)) = h/L[beam]" />
+</p>
+<p align="left">
+<font color="#000000">Servo trig</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">TRIG_SRV02 := sin(theta[l](t)) = h / r[arm]:<br />
+TRIG_SRV02;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0121.gif" width="130" height="52" alt="sin(theta[l](t)) = h/r[arm]" />
+</p>
+<p align="left">
+<font color="#000000">Height of beam</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">H_SRV02 := h = solve(TRIG_SRV02,h):<br />
+H_SRV02;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0122.gif" width="138" height="27" alt="h = sin(theta[l](t))*r[arm]" />
+</p>
+<p align="left">
+<font color="#000000">Relationship between beam angle and servo angle</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">THETA_TO_ALPHA := subs(H_SRV02,TRIG_BEAM):<br />
+THETA_TO_ALPHA;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0123.gif" width="194" height="59" alt="sin(alpha(t)) = sin(theta[l](t))*r[arm]/L[beam]" />
+</p>
+<p align="left">
+<font color="#000000">Nonlinear EOM of x relative to SRV02 load angle </font>
+<img src="images/srv02_exp04_bb0124.gif" width="47" height="32" alt="theta[l](t)" align="middle" />
+<font color="#000000">.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">EOM_X_THETA_NONLIN := subs(THETA_TO_ALPHA,EOM_X_ALPHA):<br />
+EOM_X_THETA_NONLIN;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0125.gif" width="249" height="63" alt="diff(x(t),`$`(t,2)) = m[b]*g*sin(theta[l](t))*r[arm]/L[beam]*r[b]^2/(m[b]*r[b]^2+J[b])" />
+</p>
+<p align="left">
+<font color="#000000">Assume small angles and therefore</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">SINE_LIN := sin(theta[l](t)) = theta[l](t):<br />
+SINE_LIN;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0126.gif" width="125" height="27" alt="sin(theta[l](t)) = theta[l](t)" />
+</p>
+<p align="left">
+<font color="#000000">Linear EOM of x relative to SRV02 load angle </font>
+<img src="images/srv02_exp04_bb0127.gif" width="47" height="32" alt="theta[l](t)" align="middle" />
+<font color="#000000">.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">EOM_X_THETA_LIN := subs(SINE_LIN,EOM_X_THETA_NONLIN):<br />
+EOM_X_THETA_LIN;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0128.gif" width="230" height="63" alt="diff(x(t),`$`(t,2)) = m[b]*g*theta[l](t)*r[arm]/L[beam]*r[b]^2/(m[b]*r[b]^2+J[b])" />
+</p>
+<p align="left">
+<font color="#000000">Model gain</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">K_BB := K[bb] = coeff(rhs(EOM_X_THETA_LIN),theta[l](t),1):<br />
+K_BB;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0129.gif" width="205" height="63" alt="K[bb] = m[b]*g*r[arm]/L[beam]*r[b]^2/(m[b]*r[b]^2+J[b])" />
+</p>
+<p align="left">
+<font color="#000000">Simplified EOM</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">EOM_X_THETA := lhs(EOM_X_THETA_LIN) = K[bb]*theta[l](t):<br />
+EOM_X_THETA;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0130.gif" width="147" height="63" alt="diff(x(t),`$`(t,2)) = K[bb]*theta[l](t)" />
+</p>
+<p align="left">
+<font color="#000000">Ball and beam system parameters</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">MDL_PRM_BB01 := {L[beam]=16.75*0.0254, r[arm] = 0.0254, g = 9.81, r[b]=0.5*0.0254, m[b] = 0.064 };</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0131.gif" width="625" height="27" alt="MDL_PRM_BB01 := {L[beam] = .425450, r[arm] = .254e-1, g = 9.81, r[b] = .1270e-1, m[b] = .64e-1}" />
+</p>
+<p align="left">
+<font color="#000000">Moment of inertia of solid sphere.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">J_SPHERE := J = 2/5*m*r^2:<br />
+J_SPHERE;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0132.gif" width="87" height="54" alt="J = 2/5*m*r^2" />
+</p>
+<p align="left">
+<font color="#000000">Moment of inertia of BB01 ball.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">JB := J[b] = 2/5*m[b]*r[b]^2:<br />
+JB;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0133.gif" width="107" height="45" alt="J[b] = 2/5*m[b]*r[b]^2" />
+</p>
+<p align="left">
+<font color="#000000">Value of ball inertia</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">JB_VAL := evalf[3](subs(MDL_PRM_BB01,JB)):<br />
+lhs(JB_VAL) = rhs(JB_VAL)*Unit(kg*m^2);</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0134.gif" width="178" height="36" alt="J[b] = .412e-5*Unit([kg*m^2])" />
+</p>
+<p align="left">
+</p>
+<p align="left">
+<font color="#000000">Add inertia to bb01 model parameters</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">MDL_PRM_BB01 := MDL_PRM_BB01 union {JB_VAL}:<br />
+MDL_PRM_BB01;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0135.gif" width="601" height="36" alt="{L[beam] = .425450, r[arm] = .254e-1, g = 9.81, r[b] = .1270e-1, m[b] = .64e-1, J[b] = .412e-5}" />
+</p>
+<p align="left">
+<font color="#000000">Evaluate gain</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">K_BB_VAL := subs(MDL_PRM_BB01,K_BB):<br />
+lhs(K_BB_VAL) = evalf[3](rhs(K_BB_VAL))*Unit(m/s^2/rad);</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0136.gif" width="161" height="54" alt="K[bb] = .419*Unit([m/s^2/rad])" />
+</p>
+<p align="left">
+<font color="#000000">Add to ball and beam model parameters</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">MDL_PRM_BB01 := MDL_PRM_BB01 union {K_BB_VAL}:<br />
+MDL_PRM_BB01;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0137.gif" width="745" height="36" alt="{L[beam] = .425450, r[arm] = .254e-1, g = 9.81, r[b] = .1270e-1, m[b] = .64e-1, J[b] = .412e-5, K[bb] = .4185982722}" />
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"></td></tr>
+</table>
+</p>
+</dl><dl><a name="MapleAutoBookmark9" />
+<p align="left">
+<i><b><font color="#000000" size="2">BB01 Transfer Function</font></b></i>
+</p>
+<p align="left">
+<font color="#000000">Obtain transfer function representing ball displacement relative to SRV02 motor input voltage.</font>
+</p>
+<p align="left">
+<font color="#000000">Initial conditions</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">IC := { x(0) = 0, D(x)(0) = 0 }:</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<font color="#000000">Laplace of BB01</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">TF_X_THETA_RAW := laplace(EOM_X_THETA,t,s):<br />
+TF_X_THETA_RAW;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0138.gif" width="278" height="36" alt="s^2*X(s)-D(x)(0)-s*x(0) = K[bb]*Theta[l](s)" />
+</p>
+<p align="left">
+<font color="#000000">Transfer function of BB01</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">TF_X_THETA := X(s) = solve( subs(IC,TF_X_THETA_RAW), X(s) ):<br />
+TF_X_THETA;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0139.gif" width="135" height="61" alt="X(s) = K[bb]*Theta[l](s)/s^2" />
+</p>
+<p align="left">
+<font color="#000000">BB01 Process</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">TF_P_BB := P[bb](s) = rhs(TF_X_THETA)/Theta[l](s):<br />
+TF_P_BB;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0140.gif" width="110" height="61" alt="P[bb](s) = K[bb]/s^2" />
+</p>
+<p align="left">
+<font color="#000000">Transfer function between SRV02 voltage and ball position</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">TF_X_VM := subs(tf_pos_vm,TF_X_THETA):<br />
+TF_X_VM;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0141.gif" width="156" height="61" alt="X(s) = K[bb]*K/(tau*s+1)/s^3*V[m](s)" />
+</p>
+<p align="left">
+<font color="#000000">BB01 Plant transfer function</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">TF_PLANT_BB01 := P(s) = rhs(TF_X_VM) / V[m](s):<br />
+TF_PLANT_BB01;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0142.gif" width="141" height="61" alt="P(s) = K[bb]*K/(tau*s+1)/s^3" />
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"></td></tr>
+</table>
+</p>
+</dl><p align="left">
+</p>
+</dl><p align="left">
+</p>
+</dl><dl><a name="MapleAutoBookmark10" />
+<p align="left">
+<b><font color="#000000" size="4">BB01 Control</font></b>
+</p>
+<p align="left">
+</p>
+<dl><a name="MapleAutoBookmark11" />
+<p align="left">
+<i><b><font color="#000000">Second-Order System</font></b></i>
+</p>
+<p align="left">
+<font color="#000000">Consider a unity feedback system.</font>
+</p>
+<p align="left">
+<font color="#000000">utput of a unity feedback system with compensator </font>
+<img src="images/srv02_exp04_bb0143.gif" width="47" height="32" alt="C(s)" align="middle" />
+<font color="#000000">&nbsp;and a process model </font>
+<img src="images/srv02_exp04_bb0144.gif" width="45" height="32" alt="P(s)" align="middle" />
+<font color="#000000">.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">y_uf := Y(s) = C(s) * P(s) * ( R(s) - Y(s) ):<br />
+y_uf;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0145.gif" width="224" height="20" alt="Y(s) = C(s)*P(s)*(R(s)-Y(s))" />
+</p>
+<p align="left">
+<font color="#000000">Closed-loop unity feedback transfer function</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">tf_uf := Y(s) = solve(y_uf,Y(s)):<br />
+tf_uf;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0146.gif" width="166" height="45" alt="Y(s) = C(s)*P(s)*R(s)/(1+C(s)*P(s))" />
+</p>
+<p align="left">
+<font color="#000000">Standard second-order system</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">tf_o2 := Y(s)/R(s) = omega[n]^2 / (s^2 + 2*zeta*omega[n]*s + omega[n]^2):<br />
+tf_o2;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0147.gif" width="202" height="70" alt="Y(s)/R(s) = omega[n]^2/(s^2+2*zeta*omega[n]*s+omega[n]^2)" />
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"></td></tr>
+</table>
+</p>
+</dl><dl><a name="MapleAutoBookmark12" />
+<p align="left">
+<i><b><font color="#000000">Time-Domain Specifications</font></b></i>
+</p>
+<p align="left">
+</p>
+<p align="left">
+<font color="#000000">Steady-state error, peak time, and maximum overshoot specifications of SRV02 closed-loop position step response.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">CNTRL_SPECS_SRV02 := {e[ss]=0, t[p]=0.15, PO = 5.0 };</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0148.gif" width="386" height="27" alt="CNTRL_SPECS_SRV02 := {e[ss] = 0, t[p] = .15, PO = 5.0}" />
+</p>
+<p align="left">
+<font color="#000000">SRV02 steady-state error</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">SPEC_SRV02_ESS := e[ss] = subs(CNTRL_SPECS_SRV02, e[ss]):<br />
+SPEC_SRV02_ESS;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0149.gif" width="60" height="27" alt="e[ss] = 0" />
+</p>
+<p align="left">
+<font color="#000000">Peak time spec</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">SPEC_SRV02_TP := t[p] = subs(CNTRL_SPECS_SRV02, t[p]):<br />
+lhs(SPEC_SRV02_TP) = rhs(SPEC_SRV02_TP)*Unit(s);</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0150.gif" width="98" height="27" alt="t[p] = .15*Unit([s])" />
+</p>
+<p align="left">
+<font color="#000000">SRV02 overshoot</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">SPEC_SRV02_PO := PO = subs(CNTRL_SPECS_SRV02, PO):<br />
+lhs(SPEC_SRV02_PO) = rhs(SPEC_SRV02_PO)*Unit("%");</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0151.gif" width="115" height="20" alt="PO = 5.0*Unit(["%"])" />
+</p>
+<p align="left">
+<font color="#000000">Steady-state error, peak time, and maximum overshoot specifications of BB01 closed-loop position step response.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">CNTRL_SPECS_BB01 := {e[ss]=5e-3, t[s]=3.5, c[ts] = 0.04, PO = 10.0 };</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0152.gif" width="474" height="27" alt="CNTRL_SPECS_BB01 := {e[ss] = .5e-2, t[s] = 3.5, c[ts] = .4e-1, PO = 10.0}" />
+</p>
+<p align="left">
+<font color="#000000">Ball and beam steady-state error</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">SPEC_BB01_ESS := e[ss] = (subs(CNTRL_SPECS_BB01, e[ss])):<br />
+abs(lhs(SPEC_BB01_ESS)) &lt;= rhs(SPEC_BB01_ESS)*Unit(m);</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0153.gif" width="128" height="27" alt="abs(e[ss]) &lt;= .5e-2*Unit([m])" />
+</p>
+<p align="left">
+<font color="#000000">Ball and Beam settling time</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">SPEC_BB01_TS := t[s] = subs(CNTRL_SPECS_BB01, t[s]):<br />
+lhs(SPEC_BB01_TS) = rhs(SPEC_BB01_TS)*Unit(s);</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0154.gif" width="88" height="27" alt="t[s] = 3.5*Unit([s])" />
+</p>
+<p align="left">
+<font color="#000000">Ball and beam settling percentage</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">SPEC_BB01_CTS := c[ts] = subs(CNTRL_SPECS_BB01, c[ts]):<br />
+SPEC_BB01_CTS;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0155.gif" width="79" height="27" alt="c[ts] = .4e-1" />
+</p>
+<p align="left">
+<font color="#000000">Ball and beam percentage overshoot</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">SPEC_BB01_PO := PO = subs(CNTRL_SPECS_BB01, PO):<br />
+lhs(SPEC_BB01_PO) = rhs(SPEC_BB01_PO)*Unit("%");</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0156.gif" width="123" height="20" alt="PO = 10.0*Unit(["%"])" />
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"></td></tr>
+</table>
+</p>
+</dl><p align="left">
+</p>
+<dl><a name="MapleAutoBookmark13" />
+<p align="left">
+<i><b><font color="#000000">Settling Time and and Overshoot</font></b></i>
+</p>
+<p align="left">
+<font color="#000000">Discusses the peak time and overshoot of a second-order step response.</font>
+</p>
+<dl><a name="MapleAutoBookmark14" />
+<p align="left">
+<i><b><font color="#000000" size="2">Description</font></b></i>
+</p>
+<p align="left">
+</p>
+<p align="left">
+<font color="#000000">Given the step reference .</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">R_STEP := R(s) = R[0]/s:<br />
+R_STEP;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0157.gif" width="84" height="52" alt="R(s) = R[0]/s" />
+</p>
+<p align="left">
+<font color="#000000">Measuring settling time, where </font>
+<img src="images/srv02_exp04_bb0158.gif" width="29" height="32" alt="t[1]" align="middle" />
+<font color="#000000">&nbsp;is the time where the output is </font>
+<img src="images/srv02_exp04_bb0159.gif" width="62" height="32" alt="100*c[ts]" align="middle" />
+<font color="#000000">&nbsp;, e.g. 4%, of the steady-state.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">MEAS_TS := t[s] = t[1] - t[0]:<br />
+MEAS_TS;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0160.gif" width="87" height="27" alt="t[s] = t[1]-t[0]" />
+</p>
+<p align="left">
+<font color="#000000">Measuring percentage overshoot</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">MEAS_PO := PO = 100*(y[max] - R[0]) / R[0]:<br />
+MEAS_PO;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0161.gif" width="169" height="59" alt="PO = 100*(y[max]-R[0])/R[0]" />
+</p>
+</dl><dl><a name="MapleAutoBookmark15" />
+<p align="left">
+<i><b><font color="#000000" size="2">Deriving Settling Time Equation</font></b></i>
+</p>
+<p align="left">
+</p>
+<p align="left">
+<font color="#000000">Upper-bound equation of envelope of a damped sinusoid</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">EQN_TS_UB := y[ub] = 1 + exp(-zeta*omega[n]*t[s])/sqrt(1-zeta^2):<br />
+EQN_TS_UB;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0162.gif" width="163" height="78" alt="y[ub] = 1+exp(-zeta*omega[n]*t[s])/(1-zeta^2)^(1/2)" />
+</p>
+<p align="left">
+<font color="#000000">Settling time percentage</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">C_TS := c[ts] = y[ub] - 1:<br />
+C_TS;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0163.gif" width="99" height="27" alt="c[ts] = y[ub]-1" />
+</p>
+<p align="left">
+<font color="#000000">Upper bound in terms of settling time percentage</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">Y_UB := y[ub] = solve(C_TS,y[ub]):<br />
+Y_UB;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0164.gif" width="99" height="27" alt="y[ub] = c[ts]+1" />
+</p>
+<p align="left">
+<font color="#000000">Exponential term in settling time equation</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">TS_EXP := exp(-zeta*omega[n]*t[s]);</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0165.gif" width="169" height="40" alt="TS_EXP := exp(-zeta*omega[n]*t[s])" />
+</p>
+<p align="left">
+<font color="#000000">Place formula in terms of settling time percentage and solve for exponent.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">EQN_TS:= TS_EXP = solve( subs(Y_UB,EQN_TS_UB), TS_EXP ):<br />
+EQN_TS;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0166.gif" width="194" height="47" alt="exp(-zeta*omega[n]*t[s]) = c[ts]*(1-zeta^2)^(1/2)" />
+</p>
+<p align="left">
+<font color="#000000">Take log</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">EQN_TS_LN := evalc( log( lhs(EQN_TS) ) ) = log( rhs(EQN_TS) ):<br />
+EQN_TS_LN;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0167.gif" width="195" height="40" alt="-zeta*omega[n]*t[s] = ln(c[ts]*(1-zeta^2)^(1/2))" />
+</p>
+<p align="left">
+<font color="#000000">Solve for settling time</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">TS:= t[s] = solve( EQN_TS_LN, t[s]):<br />
+TS;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0168.gif" width="168" height="72" alt="t[s] = -ln(c[ts]*(1-zeta^2)^(1/2))/zeta/omega[n]" />
+</p>
+<p align="left">
+<font color="#000000">Minimum natural frequency required to meet peak time and overshoot specification.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">WN_TS := omega[n] = solve(TS,omega[n]):<br />
+WN_TS;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0169.gif" width="176" height="72" alt="omega[n] = -ln(c[ts]*(1-zeta^2)^(1/2))/zeta/t[s]" />
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"></td></tr>
+</table>
+</p>
+</dl><dl><a name="MapleAutoBookmark16" />
+<p align="left">
+<i><b><font color="#000000" size="2">Percentage Overshoot and Peak Time Equations for SRV02</font></b></i>
+</p>
+<p align="left">
+</p>
+<p align="left">
+<font color="#000000">Second-order system peak time equation</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">TP := t[p] = Pi / (omega[n]*sqrt(1-zeta^2)):<br />
+TP;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0170.gif" width="134" height="65" alt="t[p] = Pi/omega[n]/(1-zeta^2)^(1/2)" />
+</p>
+<p align="left">
+<font color="#000000">Maximum percentage overshoot equation</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">OS := PO = 100*exp(-Pi*zeta/sqrt(1-zeta^2)):<br />
+OS;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0171.gif" width="185" height="71" alt="PO = 100*exp(-Pi*zeta/(1-zeta^2)^(1/2))" />
+</p>
+<p align="left">
+</p>
+<p align="left">
+<font color="#000000">Find minimum damping ratio required to meet overshoot specification.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">ZETA := zeta = solve(OS,zeta):<br />
+ZETA;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0172.gif" width="256" height="86" alt="zeta = -ln(1/100*PO)*(1/(ln(1/100*PO)^2+Pi^2))^(1/2)" />
+</p>
+<p align="left">
+<font color="#000000">Minimum natural frequency required to meet peak time and overshoot specification.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">WN := omega[n] = solve(TP,omega[n]):<br />
+WN;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0173.gif" width="134" height="65" alt="omega[n] = Pi/t[p]/(1-zeta^2)^(1/2)" />
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"></td></tr>
+</table>
+</p>
+</dl><p align="left">
+</p>
+</dl><dl><a name="MapleAutoBookmark17" />
+<p align="left">
+<i><b><font color="#000000">Steady-state Error</font></b></i>
+</p>
+<p align="left">
+<font color="#000000">See whether controlling the position with a PV feedback will give zero steady-state error.</font>
+</p>
+<p align="left">
+<font color="#000000">Measuring steady-state error</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">MEAS_ESS := e[ss] = r[ss](t) - y[ss](t):<br />
+MEAS_ESS;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0174.gif" width="144" height="27" alt="e[ss] = r[ss](t)-y[ss](t)" />
+</p>
+<p align="left">
+<font color="#000000">Error in unity feedback</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">err := E(s) = R(s) - Y(s):<br />
+err;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0175.gif" width="140" height="20" alt="E(s) = R(s)-Y(s)" />
+</p>
+<p align="left">
+<font color="#000000">Find error</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">tf_err := simplify(subs(tf_uf,err)):<br />
+tf_err;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0176.gif" width="155" height="45" alt="E(s) = R(s)/(1+C(s)*P(s))" />
+</p>
+<p align="left">
+<font color="#000000">and the assuming the compensator is a proportional gain of 1</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">C_UNITY := C(s) = 1:<br />
+C_UNITY;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0177.gif" width="72" height="20" alt="C(s) = 1" />
+</p>
+<p align="left">
+<font color="#000000">Steady-state error of BB01 ball position</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">tf_err_Pbb_step := subs(R_STEP,P(s)=P[bb](s),TF_P_BB,C_UNITY,tf_err):<br />
+tf_err_Pbb_step;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0178.gif" width="148" height="93" alt="E(s) = R[0]/s/(1+K[bb]/s^2)" />
+</p>
+<p align="left">
+<font color="#000000">When simplified, is expressed</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">simplify( tf_err_Pbb_step );</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0179.gif" width="125" height="68" alt="E(s) = R[0]*s/(s^2+K[bb])" />
+</p>
+<p align="left">
+<font color="#000000">Cannot find steady-state error using FVT, therefore find eom of error</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">eom_err_bb_step := e(t) = invlaplace( rhs(tf_err_Pbb_step), s, t):<br />
+eom_err_bb_step;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0180.gif" width="168" height="30" alt="e(t) = R[0]*cos(K[bb]^(1/2)*t)" />
+</p>
+<p align="left">
+<font color="#000000">There is no constant steady-state error with unity feedback.</font>
+</p>
+<p align="left">
+</p>
+<p align="left">
+</p>
+</dl><p align="left">
+</p>
+<dl><a name="MapleAutoBookmark18" />
+<p align="left">
+<i><b><font color="#000000">SRV02 PV Position Control Design</font></b></i>
+</p>
+<p align="left">
+<font color="#000000">Design PV control gains according to peak time and overshoot specifications.</font>
+</p>
+<dl><a name="MapleAutoBookmark19" />
+<p align="left">
+<i><b><font color="#000000" size="2">Closed-loop Equation</font></b></i>
+</p>
+<p align="left">
+<font color="#000000">The PV control in the time-domain has the form</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">ctrl_pv_time := V[m](t) = k[p] * ( theta[d](t) - theta[l](t) ) - k[v] * diff( theta[l](t), t ):<br />
+ctrl_pv_time;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0181.gif" width="292" height="45" alt="V[m](t) = k[p]*(theta[d](t)-theta[l](t))-k[v]*diff(theta[l](t),t)" />
+</p>
+<p align="left">
+<font color="#000000">Transfer function of PV control</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">ctrl_pv_tf := V[m](s) = k[p] * ( Theta[d](s) - Theta[l](s) ) - k[v] * s * Theta[l](s):<br />
+ctrl_pv_tf;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0182.gif" width="285" height="27" alt="V[m](s) = k[p]*(Theta[d](s)-Theta[l](s))-k[v]*s*Theta[l](s)" />
+</p>
+<p align="left">
+<font color="#000000">Closed-loop SRV02 PV position control transfer function.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">tf_cls_pos := Theta[l](s) / Theta[d](s) = collect( solve( subs(ctrl_pv_tf,tf_pos_vm), Theta[l](s) ) / Theta[d](s), s):<br />
+tf_cls_pos;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0183.gif" width="252" height="68" alt="Theta[l](s)/Theta[d](s) = K*k[p]/(s^2*tau+(1+K*k[v])*s+K*k[p])" />
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"></td></tr>
+</table>
+</p>
+<p align="left">
+</p>
+</dl><dl><a name="MapleAutoBookmark20" />
+<p align="left">
+<i><b><font color="#000000" size="2">Finding Gains to Satisfy Specifications</font></b></i>
+</p>
+<p align="left">
+<font color="#000000">Standard characteristic equation is</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">char_eqn_std := denom( rhs( tf_o2 ) ):<br />
+char_eqn_std;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0184.gif" width="146" height="36" alt="s^2+2*zeta*omega[n]*s+omega[n]^2" />
+</p>
+<p align="left">
+<font color="#000000">Denominator of SRV02 closed-loop system is</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">tf_cls_denom := denom( rhs( tf_cls_pos) ):<br />
+tf_cls_denom;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0185.gif" width="171" height="36" alt="s^2*tau+s+K*k[p]+K*k[v]*s" />
+</p>
+<p align="left">
+<font color="#000000">Re-arranged to fit characteristic equation format</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">char_eqn_srv02 := collect( tf_cls_denom / coeff(tf_cls_denom,s,2), s ):<br />
+char_eqn_srv02;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0186.gif" width="184" height="52" alt="s^2+(1+K*k[v])/tau*s+K*k[p]/tau" />
+</p>
+<p align="left">
+<font color="#000000">Setup equations to calculate the proportional and derivative gains needed for (</font>
+<img src="images/srv02_exp04_bb0187.gif" width="35" height="32" alt="omega[n]" align="middle" />
+<font color="#000000">,</font>
+<img src="images/srv02_exp04_bb0188.gif" width="24" height="32" alt="zeta" align="middle" />
+<font color="#000000">) specifications.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">KP_eqn := coeff(char_eqn_srv02,s,0) = coeff(char_eqn_std,s,0):<br />
+KP_eqn;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0189.gif" width="96" height="52" alt="K*k[p]/tau = omega[n]^2" />
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">KV_eqn := coeff(char_eqn_srv02,s,1) = coeff(char_eqn_std,s,1):<br />
+KV_eqn;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0190.gif" width="136" height="52" alt="(1+K*k[v])/tau = 2*zeta*omega[n]" />
+</p>
+<p align="left">
+<font color="#000000">Proportional gain needed</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">KP := k[p] = solve(KP_eqn,k[p]):<br />
+KP;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0191.gif" width="92" height="54" alt="k[p] = omega[n]^2/K*tau" />
+</p>
+<p align="left">
+<font color="#000000">Derivative gain needed</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">KV := k[v] = solve(KV_eqn,k[v]):<br />
+KV;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0192.gif" width="141" height="52" alt="k[v] = (-1+2*zeta*omega[n]*tau)/K" />
+</p>
+<p align="left">
+<font color="#000000">Evaluate damping ratio required to meet specs.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">ZETA_VAL := evalf[3]( subs(CNTRL_SPECS_SRV02,ZETA) ):<br />
+ZETA_VAL;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0193.gif" width="77" height="20" alt="zeta = .690" />
+</p>
+<p align="left">
+<font color="#000000">Evaluate natural frequency needed to meet specs.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">WN_VAL := evalf[3]( subs(CNTRL_SPECS_SRV02, ZETA_VAL, WN) ):<br />
+lhs(WN_VAL) = rhs(WN_VAL)*Unit(rad/s);</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0194.gif" width="126" height="45" alt="omega[n] = 28.9*Unit([rad/s])" />
+</p>
+<p align="left">
+<font color="#000000">Steady-state model parameter</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">MDL_K := K = subs(MDL_PRM_SRV02,K):<br />
+lhs(MDL_K) = evalf[3]( rhs(MDL_K) )*Unit(rad/s/V);</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0195.gif" width="118" height="45" alt="K = 1.76*Unit([rad/s/V])" />
+</p>
+<p align="left">
+<font color="#000000">Time constant model parameter</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">MDL_TAU := tau = subs(MDL_PRM_SRV02,tau):<br />
+lhs(MDL_TAU) = evalf[3]( rhs(MDL_TAU) )*Unit(s);</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0196.gif" width="108" height="20" alt="tau = .285e-1*Unit([s])" />
+</p>
+<p align="left">
+<font color="#000000">Proportional controls gain needed to meet the time-domain specifications given the model parameters above.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">KP_VAL := evalf[3]( subs(MDL_PRM_SRV02,WN_VAL,KP) ):<br />
+lhs(KP_VAL) = rhs(KP_VAL)*Unit(V/rad);</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0197.gif" width="123" height="45" alt="k[p] = 13.5*Unit([V/rad])" />
+</p>
+<p align="left">
+<font color="#000000">Derivative controls gain needed to meet the time-domain specifications given the model parameters above.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">KV_VAL := evalf[3]( subs(MDL_PRM_SRV02,WN_VAL,ZETA_VAL,KV) ):<br />
+lhs(KV_VAL) = rhs(KV_VAL)*Unit(V*s/rad);</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0198.gif" width="131" height="45" alt="k[v] = .78e-1*Unit([V*s/rad])" />
+</p>
+</dl><p align="left">
+</p>
+</dl><dl><a name="MapleAutoBookmark21" />
+<p align="left">
+<i><b><font color="#000000">SRV02+BB01 Stability Analysis</font></b></i>
+</p>
+<p align="left">
+<font color="#000000">Before designing the cacade control, some analysis is performed on the entire system.</font>
+</p>
+<dl><a name="MapleAutoBookmark22" />
+<p align="left">
+<i><b><font color="#000000" size="2">Root-Locus of Open-Loop System</font></b></i>
+</p>
+<p align="left">
+<font color="#000000">Based on settling time and percentage overshoot equations, find the natural frequency and damping ratio needed and draw those on the S-Plane.</font>
+</p>
+<p align="left">
+<font color="#000000">Position of SRV02 is controlled and it assumed that there are no dynamics between the votlage and load shaft. Thus</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">theta_d_l_time := theta[l](t) = theta[d](t):<br />
+theta_d_l_time;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb0199.gif" width="99" height="27" alt="theta[l](t) = theta[d](t)" />
+</p>
+<p align="left">
+<font color="#000000">In Laplace</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">theta_d_l_s := laplace((theta_d_l_time),t,s):<br />
+theta_d_l_s;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01100.gif" width="109" height="27" alt="Theta[l](s) = Theta[d](s)" />
+</p>
+<p align="left">
+<font color="#000000">Consider the BB01 compensator, i.e. outer-loop control.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">tf_bb01_ctrl_C := Theta[d](s) = C[bb](s) * ( X[d](s) - X(s) ):<br />
+tf_bb01_ctrl_C;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01101.gif" width="224" height="27" alt="Theta[d](s) = C[bb](s)*(X[d](s)-X(s))" />
+</p>
+<p align="left">
+<font color="#000000">Proportional compensator</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">tf_C_p := C[bb](s) = K[c]:<br />
+tf_C_p;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01102.gif" width="98" height="27" alt="C[bb](s) = K[c]" />
+</p>
+<p align="left">
+<font color="#000000">BB01 controller with unity compensator </font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">tf_bb01_ctrl_p := subs(tf_C_p, tf_bb01_ctrl_C):<br />
+tf_bb01_ctrl_p;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01103.gif" width="195" height="27" alt="Theta[d](s) = K[c]*(X[d](s)-X(s))" />
+</p>
+<p align="left">
+<font color="#000000">Closed-loop system of BB01 with proportional compensator</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">tf_bb01_cls_p := X(s)/X[d](s) = solve( subs(theta_d_l_s, tf_bb01_ctrl_p, TF_X_THETA), X(s) )/X[d](s):<br />
+tf_bb01_cls_p;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01104.gif" width="160" height="68" alt="X(s)/X[d](s) = K[bb]*K[c]/(s^2+K[bb]*K[c])" />
+</p>
+<p align="left">
+<font color="#000000">Poles of CLS</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">tf_bb01_cls_p_poles := {K[bb]*K[c]*j,-K[bb]*K[c]*j}:<br />
+tf_bb01_cls_p_poles;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01105.gif" width="168" height="27" alt="{-I*K[bb]*K[c], K[bb]*K[c]*I}" />
+</p>
+<p align="left">
+<font color="#000000">As the poles of system move further along the imaginary axis and the system becomes more oscillatory (generally more unstable).</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"></td></tr>
+</table>
+</p>
+</dl><dl><a name="MapleAutoBookmark23" />
+<p align="left">
+<i><b><font color="#000000" size="2">Desired Location of Poles</font></b></i>
+</p>
+<p align="left">
+</p>
+<p align="left">
+<font color="#000000">Recall the prototype second order system</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">tf_o2;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01106.gif" width="202" height="70" alt="Y(s)/R(s) = omega[n]^2/(s^2+2*zeta*omega[n]*s+omega[n]^2)" />
+</p>
+<p align="left">
+<font color="#000000">Example: desired natural frequency</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">EX_WN := omega[n] = 1.5:<br />
+lhs(EX_WN) = rhs(EX_WN)*Unit(rad/s);</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01107.gif" width="118" height="45" alt="omega[n] = 1.5*Unit([rad/s])" />
+</p>
+<p align="left">
+<font color="#000000">Example: desired damping ratio</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">EX_ZETA := zeta = 0.6:<br />
+EX_ZETA;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01108.gif" width="61" height="20" alt="zeta = .6" />
+</p>
+<p align="left">
+<font color="#000000">Location of poles along the real axis</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">pole_loc_sigma := sigma = zeta*omega[n]:<br />
+pole_loc_sigma;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01109.gif" width="74" height="27" alt="sigma = zeta*omega[n]" />
+</p>
+<p align="left">
+<font color="#000000">Location of poles along the imaginary axis is the damped frequency</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">pole_loc_wd := omega[d] = omega[n]*sqrt(1-zeta^2):<br />
+pole_loc_wd;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01110.gif" width="136" height="40" alt="omega[d] = omega[n]*(1-zeta^2)^(1/2)" />
+</p>
+<p align="left">
+<font color="#000000">Angle of poles from imaginary axis from damping ratio</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">pole_loc_angle := theta = arcsin(zeta):<br />
+pole_loc_angle;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01111.gif" width="98" height="20" alt="theta = arcsin(zeta)" />
+</p>
+<p align="left">
+<font color="#000000">Evaluate damping ratio required to meet specs.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">ZETA_VAL_BB01 := evalf[3]( subs(CNTRL_SPECS_BB01,ZETA) ):<br />
+ZETA_VAL_BB01;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01112.gif" width="77" height="20" alt="zeta = .591" />
+</p>
+<p align="left">
+<font color="#000000">Evaluate natural frequency needed to meet specs.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">WN_VAL_BB01 := evalf[3]( subs(CNTRL_SPECS_BB01, ZETA_VAL_BB01, WN_TS) ):<br />
+lhs(WN_VAL_BB01) = rhs(WN_VAL_BB01)*Unit(rad/s);</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01113.gif" width="126" height="45" alt="omega[n] = 1.66*Unit([rad/s])" />
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"></td></tr>
+</table>
+</p>
+<p align="left">
+</p>
+</dl><p align="left">
+</p>
+</dl><p align="left">
+</p>
+<dl><a name="MapleAutoBookmark24" />
+<p align="left">
+<i><b><font color="#000000">BB01 Root Locus Design</font></b></i>
+</p>
+<p align="left">
+</p>
+<dl><a name="MapleAutoBookmark25" />
+<p align="left">
+<i><b><font color="#000000" size="2">Closed-loop Equation</font></b></i>
+</p>
+<p align="left">
+<font color="#000000">Consider a compensator with a proportional gain and a zero, i.e. ideal PD control.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">tf_C_pd := C[bb](s) = K[c] * (s+z):<br />
+tf_C_pd;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01114.gif" width="145" height="27" alt="C[bb](s) = K[c]*(s+z)" />
+</p>
+<p align="left">
+<font color="#000000">Loop transfer function of BB01</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">tf_L := L[bb](s) = C[bb](s)*P[bb](s):<br />
+tf_L;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01115.gif" width="175" height="27" alt="L[bb](s) = C[bb](s)*P[bb](s)" />
+</p>
+<p align="left">
+<font color="#000000">Ideal PD controller</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">tf_bb01_ctrl_pd := subs(tf_C_pd, tf_bb01_ctrl_C):<br />
+tf_bb01_ctrl_pd;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01116.gif" width="242" height="27" alt="Theta[d](s) = K[c]*(s+z)*(X[d](s)-X(s))" />
+</p>
+<p align="left">
+<font color="#000000">Ideal PD closed-loop BB01 position control transfer function.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">tf_bb01_cls_pd := X(s)/ X[d](s) = collect( solve( subs(theta_d_l_s,tf_bb01_ctrl_pd,TF_X_THETA), X(s) ), s )/X[d](s):<br />
+tf_bb01_cls_pd;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01117.gif" width="246" height="68" alt="X(s)/X[d](s) = K[bb]*K[c]*(s+z)/(s^2+K[bb]*K[c]*s+K[bb]*K[c]*z)" />
+</p>
+<p align="left">
+<font color="#000000">Ideal PV controller</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">tf_bb01_ctrl_pv := Theta[d](s) = K[c]*( z*(X[d](s)-X(s)) - s*X(s) ):<br />
+tf_bb01_ctrl_pv;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01118.gif" width="277" height="27" alt="Theta[d](s) = K[c]*(z*(X[d](s)-X(s))-s*X(s))" />
+</p>
+<p align="left">
+<font color="#000000">Ideal PV closed-loop BB01 position control transfer function.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">tf_bb01_cls_pv := X(s)/ X[d](s) = collect( solve( subs(theta_d_l_s,tf_bb01_ctrl_pv,TF_X_THETA), X(s) ), s )/X[d](s):<br />
+tf_bb01_cls_pv;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01119.gif" width="246" height="68" alt="X(s)/X[d](s) = K[bb]*K[c]*z/(s^2+K[bb]*K[c]*s+K[bb]*K[c]*z)" />
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"></td></tr>
+</table>
+</p>
+<p align="left">
+</p>
+</dl><dl><a name="MapleAutoBookmark26" />
+<p align="left">
+<i><b><font color="#000000" size="2">Steady-State Error using Compensator</font></b></i>
+</p>
+<p align="left">
+</p>
+<p align="left">
+<font color="#000000">Steady-state error of BB01 ball position using Lead compensator</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">tf_err_bb01_step_pd := subs(R_STEP,P(s)=P[bb](s),C(s)=C[bb](s),TF_P_BB,tf_C_pd,tf_err):<br />
+tf_err_bb01_step_pd;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01120.gif" width="217" height="93" alt="E(s) = R[0]/s/(1+K[c]*(s+z)*K[bb]/s^2)" />
+</p>
+<p align="left">
+<font color="#000000">Simplify</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">simplify(tf_err_bb01_step_pd);</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01121.gif" width="233" height="68" alt="E(s) = R[0]*s/(s^2+K[bb]*K[c]*s+K[bb]*K[c]*z)" />
+</p>
+<p align="left">
+<font color="#000000">Final-value theorem</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">E_SS := e[ss] = Limit(s*E(s),s=0):<br />
+E_SS;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01122.gif" width="137" height="40" alt="e[ss] = Limit(s*E(s),s = 0)" />
+</p>
+<p align="left">
+<font color="#000000">Sub in FVT</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">simplify(subs(tf_err_bb01_step_pd,E_SS));</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01123.gif" width="306" height="70" alt="e[ss] = R[0]*Limit(s^2/(s^2+K[bb]*K[c]*s+K[bb]*K[c]*z),s = 0)" />
+</p>
+<p align="left">
+<font color="#000000">Resulting position error - system is Type 1.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">E_SS_STEP_VAL := e[ss] = limit(s*rhs(tf_err_bb01_step_pd),s=0):<br />
+E_SS_STEP_VAL;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01124.gif" width="60" height="27" alt="e[ss] = 0" />
+</p>
+<p align="left">
+<font color="#000000">However, there is a steady-state error found in the actual system and when simulating the device with its nonlinear model. The controller will have to be tuned in order to confirm to the necessary steady-state error.</font>
+</p>
+<p align="left">
+</p>
+</dl><dl><a name="MapleAutoBookmark27" />
+<p align="left">
+<i><b><font color="#000000" size="2">Finding Zero Location and Gain to Satisfy Specifications</font></b></i>
+</p>
+<p align="left">
+</p>
+<p align="left">
+<font color="#000000">Recall the prototype second-order system</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">tf_o2;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01125.gif" width="202" height="70" alt="Y(s)/R(s) = omega[n]^2/(s^2+2*zeta*omega[n]*s+omega[n]^2)" />
+</p>
+<p align="left">
+<font color="#000000">Characteristic equation</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">char_eqn_bb := denom(rhs(tf_bb01_cls_pv)):<br />
+char_eqn_bb;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01126.gif" width="183" height="36" alt="s^2+K[bb]*K[c]*s+K[bb]*K[c]*z" />
+</p>
+<p align="left">
+<font color="#000000">Desired gain equation </font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">eqn_des_Kc := coeff(char_eqn_bb,s,1) = coeff(char_eqn_std,s,1):<br />
+eqn_des_Kc;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01127.gif" width="125" height="27" alt="K[bb]*K[c] = 2*zeta*omega[n]" />
+</p>
+<p align="left">
+<font color="#000000">Desired zero location</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">eqn_des_zero := coeff(char_eqn_bb,s,0) = coeff(char_eqn_std,s,0):<br />
+eqn_des_zero;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01128.gif" width="120" height="29" alt="K[bb]*K[c]*z = omega[n]^2" />
+</p>
+<p align="left">
+<font color="#000000">Desired gain</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">des_Kc := K[c] = solve( eqn_des_Kc, K[c] ):<br />
+des_Kc;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01129.gif" width="98" height="59" alt="K[c] = 2*zeta*omega[n]/K[bb]" />
+</p>
+<p align="left">
+<font color="#000000">Desired zero location</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">des_z := z = solve( eqn_des_zero, z):<br />
+des_z;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01130.gif" width="92" height="61" alt="z = omega[n]^2/K[bb]/K[c]" />
+</p>
+<p align="left">
+<font color="#000000">Computed compensator gain</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">des_Kc_val := evalf[3]( subs(MDL_PRM_BB01, ZETA_VAL_BB01, WN_VAL_BB01, des_Kc) ):<br />
+lhs(des_Kc_val) = rhs(des_Kc_val)*Unit(rad/m);</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01131.gif" width="125" height="45" alt="K[c] = 4.68*Unit([rad/m])" />
+</p>
+<p align="left">
+<font color="#000000">Evaluated zero location</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">des_z_val := evalf[3]( subs(ZETA_VAL_BB01, WN_VAL_BB01, K_BB_VAL, des_Kc_val, des_z) ):<br />
+lhs(des_z_val) = rhs(des_z_val)*Unit(rad/s); </font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01132.gif" width="113" height="45" alt="z = 1.41*Unit([rad/s])" />
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"></td></tr>
+</table>
+</p>
+</dl><p align="left">
+</p>
+</dl><dl><a name="MapleAutoBookmark28" />
+<p align="left">
+<i><b><font color="#000000">BB01 Lead Compensator Design</font></b></i>
+</p>
+<p align="left">
+</p>
+<dl><a name="MapleAutoBookmark29" />
+<p align="left">
+<i><b><font color="#000000" size="2">Closed-loop Equation</font></b></i>
+</p>
+<p align="left">
+</p>
+<p align="left">
+<font color="#000000">First-order high-pass filter</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">tf_hpf := H(s) = omega[f]*s / (s + omega[f]):<br />
+tf_hpf;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01133.gif" width="107" height="59" alt="H(s) = omega[f]*s/(s+omega[f])" />
+</p>
+<p align="left">
+<font color="#000000">Transfer function of PV control with low-pass filter.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">tf_bb01_ctrl_pd_bsp := Theta[d](s) = K[c] * ( z*( X[d](s) - X(s) ) + &nbsp;omega[f]*s/(s+omega[f]) * ( b[sp]*X[d](s) - X(s) ) ):<br />
+tf_bb01_ctrl_pd_bsp;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01134.gif" width="398" height="59" alt="Theta[d](s) = K[c]*(z*(X[d](s)-X(s))+omega[f]*s/(s+omega[f])*(b[sp]*X[d](s)-X(s)))" />
+</p>
+<p align="left">
+<font color="#000000">Closed-loop BB01 position control transfer function.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">tf_bb01_cls_pd_bsp := X(s)/ X[d](s) = collect( solve( subs(theta_d_l_s,tf_bb01_ctrl_pd_bsp,TF_X_THETA), X(s) ), s ) / X[d](s):<br />
+tf_bb01_cls_pd_bsp;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01135.gif" width="428" height="68" alt="X(s)/X[d](s) = K[bb]*K[c]*((z+omega[f]*b[sp])*s+z*omega[f])/(s^3+s^2*omega[f]+(K[bb]*K[c]*omega[f]+K[bb]*K[c]*z)*s+K[bb]*K[c]*z*omega[f])" />
+</p>
+<p align="left">
+<font color="#000000">When no set-point weight</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">subs(b[sp]=0,tf_bb01_cls_pd_bsp);</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01136.gif" width="428" height="68" alt="X(s)/X[d](s) = K[bb]*K[c]*(z*s+z*omega[f])/(s^3+s^2*omega[f]+(K[bb]*K[c]*omega[f]+K[bb]*K[c]*z)*s+K[bb]*K[c]*z*omega[f])" />
+</p>
+<p align="left">
+<font color="#000000">BB01 compensator</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">tf_bb01_C_gen := C[bb](s) = Theta[d](s) / (X[d](s)-X(s)):<br />
+tf_bb01_C_gen;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01137.gif" width="170" height="59" alt="C[bb](s) = Theta[d](s)/(X[d](s)-X(s))" />
+</p>
+<p align="left">
+<font color="#000000">Setting </font>
+<img src="images/srv02_exp04_bb01138.gif" width="63" height="32" alt="b[sp] = 1" align="middle" />
+<font color="#000000">, the compensator is</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">tf_bb01_C_pd_bsp := C[bb](s) = collect( simplify( rhs( subs(b[sp]=1,tf_bb01_ctrl_pd_bsp) / ( X[d](s)-X(s) ) ) ), s):<br />
+tf_bb01_C_pd_bsp;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01139.gif" width="226" height="59" alt="C[bb](s) = ((z+omega[f])*s+z*omega[f])*K[c]/(s+omega[f])" />
+</p>
+<p align="left">
+<font color="#000000">Zero equation</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">eqn_C_num := numer( rhs( tf_bb01_C_pd_bsp ) ) = 0:<br />
+eqn_C_num;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01140.gif" width="179" height="27" alt="(z*s+z*omega[f]+omega[f]*s)*K[c] = 0" />
+</p>
+<p align="left">
+<font color="#000000">Location of zero</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">loc_C_zero := z[c] = solve(eqn_C_num,s):<br />
+loc_C_zero;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01141.gif" width="102" height="59" alt="z[c] = -z*omega[f]/(z+omega[f])" />
+</p>
+<p align="left">
+<font color="#000000">Pole equation</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">eqn_C_den := denom( rhs( tf_bb01_C_pd_bsp ) ) = 0:<br />
+eqn_C_den;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01142.gif" width="80" height="27" alt="s+omega[f] = 0" />
+</p>
+<p align="left">
+<font color="#000000">Location of pole</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">loc_C_pole := p[c] = solve( eqn_C_den, s):<br />
+loc_C_pole;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01143.gif" width="73" height="27" alt="p[c] = -omega[f]" />
+</p>
+<p align="center">
+</p>
+</dl><dl><a name="MapleAutoBookmark30" />
+<p align="left">
+<i><b><font color="#000000" size="2">Find Gain, Zero, and Filter Cutoff to Satisfy Specifications</font></b></i>
+</p>
+<p align="left">
+</p>
+<p align="left">
+<font color="#000000">Standard third-order characteristic equation</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">eqn_char_std_o3_factored := ( s^2 + 2 * zeta * omega[n] * s + omega[n]^2 ) * ( 1 + T[p]*s ): <br />
+eqn_char_std_o3_factored;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01144.gif" width="230" height="36" alt="(s^2+2*zeta*omega[n]*s+omega[n]^2)*(1+T[p]*s)" />
+</p>
+<p align="left">
+<font color="#000000">This expands to</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">eqn_char_std_o3 := collect( expand( eqn_char_std_o3_factored ) / coeff( eqn_char_std_o3_factored, s, 3), s): <br />
+eqn_char_std_o3;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01145.gif" width="377" height="68" alt="s^3+(2*zeta*omega[n]*T[p]+1)/T[p]*s^2+(omega[n]^2*T[p]+2*zeta*omega[n])/T[p]*s+omega[n]^2/T[p]" />
+</p>
+<p align="left">
+<font color="#000000">Characteristic equation</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">eqn_char_bb_o3 := collect( denom( rhs( tf_bb01_cls_pd_bsp ) ) , s ):<br />
+eqn_char_bb_o3;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01146.gif" width="365" height="36" alt="s^3+s^2*omega[f]+(K[bb]*K[c]*omega[f]+K[bb]*K[c]*z)*s+K[bb]*K[c]*z*omega[f]" />
+</p>
+<p align="left">
+<font color="#000000">Required filter cutoff frequency</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">eqn_f_wf := coeff(eqn_char_bb_o3,s,2) = coeff(eqn_char_std_o3,s,2):<br />
+eqn_f_wf;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01147.gif" width="142" height="59" alt="omega[f] = (2*zeta*omega[n]*T[p]+1)/T[p]" />
+</p>
+<p align="left">
+<font color="#000000">Required pole</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">des_f_Tp := T[p] = solve(eqn_f_wf,T[p]):<br />
+des_f_Tp;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01148.gif" width="130" height="52" alt="T[p] = 1/(omega[f]-2*zeta*omega[n])" />
+</p>
+<p align="left">
+<font color="#000000">Equation for compensator gain</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">eqn_f_Kc := coeff(eqn_char_bb_o3,s,0) = coeff(eqn_char_std_o3,s,0):<br />
+eqn_f_Kc;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01149.gif" width="144" height="61" alt="K[bb]*K[c]*z*omega[f] = omega[n]^2/T[p]" />
+</p>
+<p align="left">
+<font color="#000000">Equation for zero location</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">eqn_f_z := coeff(eqn_char_bb_o3,s,1) = coeff(eqn_char_std_o3,s,1):<br />
+eqn_f_z;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01150.gif" width="291" height="61" alt="K[bb]*K[c]*omega[f]+K[bb]*K[c]*z = (omega[n]^2*T[p]+2*zeta*omega[n])/T[p]" />
+</p>
+<p align="left">
+<font color="#000000">Needed gain</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">des_f_Kc := K[c] = solve(eqn_f_Kc,K[c]):<br />
+des_f_Kc;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01151.gif" width="133" height="61" alt="K[c] = omega[n]^2/T[p]/K[bb]/z/omega[f]" />
+</p>
+<p align="left">
+<font color="#000000">Subsitute gain equation into zero equation and then solve for </font>
+<img src="images/srv02_exp04_bb01152.gif" width="22" height="32" alt="z" align="middle" />
+<font color="#000000">.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">des_f_z := z = solve(subs(des_f_Kc, eqn_f_z),z):<br />
+des_f_z;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01153.gif" width="205" height="59" alt="z = omega[n]*omega[f]/(-omega[n]+omega[f]*omega[n]*T[p]+2*omega[f]*zeta)" />
+</p>
+<p align="left">
+<font color="#000000">Manually choose filter cutoff frequency</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">WF_VAL_BB01 := omega[f] = 2*Pi*1.0:<br />
+lhs(WF_VAL_BB01) = evalf[3](rhs(WF_VAL_BB01))*Unit(rad/s);</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01154.gif" width="123" height="45" alt="omega[f] = 6.28*Unit([rad/s])" />
+</p>
+<p align="left">
+<font color="#000000">Pole time constant</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">des_f_Tp_val := subs(WN_VAL_BB01,ZETA_VAL_BB01,WF_VAL_BB01,des_f_Tp):<br />
+lhs(des_f_Tp_val) = evalf[3](rhs(des_f_Tp_val))*Unit(s);</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01155.gif" width="110" height="27" alt="T[p] = .231*Unit([s])" />
+</p>
+<p align="left">
+<font color="#000000">Evaluate zero location</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">des_f_z_val := evalf[3]( subs( <br />
+WN_VAL_BB01, ZETA_VAL_BB01, K_BB_VAL, des_f_Tp_val, WF_VAL_BB01, des_f_z) ):<br />
+lhs(des_f_z_val) = rhs(des_f_z_val)*Unit(rad/s);</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01156.gif" width="113" height="45" alt="z = 1.28*Unit([rad/s])" />
+</p>
+<p align="left">
+<font color="#000000">Computed compensator gain</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">des_f_Kc_val := evalf[3]( subs(MDL_PRM_BB01, WN_VAL_BB01, des_f_Tp_val, WF_VAL_BB01, des_f_z_val, des_f_Kc) ):<br />
+lhs(des_f_Kc_val) = rhs(des_f_Kc_val)*Unit(rad/m);</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01157.gif" width="125" height="45" alt="K[c] = 3.56*Unit([rad/m])" />
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"></td></tr>
+</table>
+</p>
+</dl><p align="left">
+</p>
+</dl><p align="left">
+</p>
+</dl></dl><dl><a name="MapleAutoBookmark31" />
+<p align="left">
+<b><font color="#000000" size="5">In-Lab</font></b>
+</p>
+<p align="left">
+<font color="#000000">This section contains in-lab results.</font>
+</p>
+<dl><a name="MapleAutoBookmark32" />
+<p align="left">
+<b><font color="#000000" size="4">Simulation: Outer-Loop</font></b>
+</p>
+<p align="left">
+</p>
+<dl><a name="MapleAutoBookmark33" />
+<p align="left">
+<i><b><font color="#000000">Ideal PD Simulation</font></b></i>
+</p>
+<p align="left">
+<font color="#000000">Results from simulating the closed-loop response of the BB01 plant using its nonlinear model and the Ideal PD compensator. The SRV02 dynamics are ignored, i.e. only the outer loop is being considered</font>
+</p>
+<p align="left">
+<font color="#000000">Steady-state error</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">SIM_IDEAL_E_SS := e[ss] = 6.77e-4:<br />
+lhs(SIM_IDEAL_E_SS) = evalf[3]( rhs(SIM_IDEAL_E_SS) )*Unit(cm);</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01158.gif" width="149" height="27" alt="e[ss] = .677e-3*Unit([cm])" />
+</p>
+<p align="left">
+<font color="#000000">Settling time.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">SIM_IDEAL_TS := t[s] = 3.59:<br />
+lhs(SIM_IDEAL_TS) = rhs(SIM_IDEAL_TS)*Unit(s); </font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01159.gif" width="96" height="27" alt="t[s] = 3.59*Unit([s])" />
+</p>
+<p align="left">
+<font color="#000000">Percentage overshoot.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">SIM_IDEAL_PO := PO = 10.0:<br />
+lhs(SIM_IDEAL_PO) = rhs(SIM_IDEAL_PO)*Unit("%");</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01160.gif" width="123" height="20" alt="PO = 10.0*Unit(["%"])" />
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"></td></tr>
+</table>
+</p>
+</dl><p align="left">
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"></td></tr>
+</table>
+</p>
+</dl><dl><a name="MapleAutoBookmark34" />
+<p align="left">
+<b><font color="#000000" size="4">Simulation: Cascade</font></b>
+</p>
+<p align="left">
+<font color="#000000">Results from simulating the closed-loop response of the SRV02+BB01 plant using its nonlinear model and the full cascade control system. The SRV02 dynamics are now introduced.</font>
+</p>
+<dl><a name="MapleAutoBookmark35" />
+<p align="left">
+<i><b><font color="#000000">Ideal PD Controller</font></b></i>
+</p>
+<p align="left">
+<font color="#000000">Steady-state error</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">SIM_CASC_IDEAL_E_SS := e[ss] = 0.000311:<br />
+lhs(SIM_CASC_IDEAL_E_SS) = evalf[3]( rhs(SIM_CASC_IDEAL_E_SS) )*Unit(cm);</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01161.gif" width="149" height="27" alt="e[ss] = .311e-3*Unit([cm])" />
+</p>
+<p align="left">
+<font color="#000000">Settling time.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">SIM_CASC_IDEAL_TS := t[s] = 3.45:<br />
+lhs(SIM_CASC_IDEAL_TS) = rhs(SIM_CASC_IDEAL_TS)*Unit(s); </font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01162.gif" width="96" height="27" alt="t[s] = 3.45*Unit([s])" />
+</p>
+<p align="left">
+<font color="#000000">Percentage overshoot</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">SIM_CASC_PO := PO = 10.9:<br />
+lhs(SIM_CASC_PO) = rhs(SIM_CASC_PO)*Unit("%");</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01163.gif" width="123" height="20" alt="PO = 10.9*Unit(["%"])" />
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"></td></tr>
+</table>
+</p>
+</dl><dl><a name="MapleAutoBookmark36" />
+<p align="left">
+<i><b><font color="#000000">Practical PD Controller</font></b></i>
+</p>
+<p align="left">
+<font color="#000000">PD controller with a high-pass filter.</font>
+</p>
+<dl><a name="MapleAutoBookmark37" />
+<p align="left">
+<i><b><font color="#000000" size="2">Using Original Gains</font></b></i>
+</p>
+<p align="left">
+<font color="#000000">Using originally calcualted control gains.</font>
+</p>
+<p align="left">
+<font color="#000000">Steady-state error</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">SIM_CASC_PRAC_E_SS_1 := e[ss] = 0.000168:<br />
+lhs(SIM_CASC_PRAC_E_SS_1) = evalf[3]( rhs(SIM_CASC_PRAC_E_SS_1) )*Unit(cm);</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01164.gif" width="149" height="27" alt="e[ss] = .168e-3*Unit([cm])" />
+</p>
+<p align="left">
+<font color="#000000">Settling time.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">SIM_CASC_PRAC_TS_1 := t[s] = 3.47:<br />
+lhs(SIM_CASC_PRAC_TS_1) = rhs(SIM_CASC_PRAC_TS_1)*Unit(s); </font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01165.gif" width="96" height="27" alt="t[s] = 3.47*Unit([s])" />
+</p>
+<p align="left">
+<font color="#000000">Percentage overshoot</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">SIM_CASC_PRAC_PO_1 := PO = 11.0:<br />
+lhs(SIM_CASC_PRAC_PO_1) = rhs(SIM_CASC_PRAC_PO_1)*Unit("%");</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01166.gif" width="123" height="20" alt="PO = 11.0*Unit(["%"])" />
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"></td></tr>
+</table>
+</p>
+</dl><dl><a name="MapleAutoBookmark38" />
+<p align="left">
+<i><b><font color="#000000" size="2">Tuned Gains</font></b></i>
+</p>
+<p align="left">
+<font color="#000000">The gains need to be derived from tighter restrictions in order for the closed-loop response to meet the desired specifications.</font>
+</p>
+<p align="left">
+</p>
+<p align="left">
+<font color="#000000">Ball and Beam settling time</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">SPEC_BB01_TS_TUNE := t[s] = 3.0:<br />
+lhs(SPEC_BB01_TS_TUNE) = rhs(SPEC_BB01_TS_TUNE)*Unit(s);</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01167.gif" width="88" height="27" alt="t[s] = 3.0*Unit([s])" />
+</p>
+<p align="left">
+<font color="#000000">Ball and beam percentage overshoot</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">SPEC_BB01_PO_TUNE := PO = 7.5:<br />
+lhs(SPEC_BB01_PO_TUNE) = rhs(SPEC_BB01_PO_TUNE)*Unit("%");</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01168.gif" width="115" height="20" alt="PO = 7.5*Unit(["%"])" />
+</p>
+<p align="left">
+<font color="#000000">Computed zero location</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">sim_z_val_tune := z = 1.26:<br />
+lhs(sim_z_val_tune) = rhs(sim_z_val_tune)*Unit(rad/s);</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01169.gif" width="113" height="45" alt="z = 1.26*Unit([rad/s])" />
+</p>
+<p align="left">
+<font color="#000000">Computed compensator gain</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">sim_Kc_val_tune := K[c] = 3.96:<br />
+lhs(sim_Kc_val_tune) = rhs(sim_Kc_val_tune)*Unit(rad/m);</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01170.gif" width="125" height="45" alt="K[c] = 3.96*Unit([rad/m])" />
+</p>
+<p align="left">
+<font color="#000000">Resulting response steady-state error</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">SIM_CASC_PRAC_E_SS_2 := e[ss] = 7.3e-5:<br />
+lhs(SIM_CASC_PRAC_E_SS_2) = evalf[3]( rhs(SIM_CASC_PRAC_E_SS_2) )*Unit(cm);</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01171.gif" width="149" height="27" alt="e[ss] = .73e-4*Unit([cm])" />
+</p>
+<p align="left">
+<font color="#000000">Resulting response settling time</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">SIM_CASC_PRAC_TS_2 := t[s] = 3.2:<br />
+lhs(SIM_CASC_PRAC_TS_2) = rhs(SIM_CASC_PRAC_TS_2)*Unit(s); </font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01172.gif" width="88" height="27" alt="t[s] = 3.2*Unit([s])" />
+</p>
+<p align="left">
+<font color="#000000">Resulting response percentage overshoot</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">SIM_CASC_PRAC_PO_2 := PO = 7.99:<br />
+lhs(SIM_CASC_PRAC_PO_2) = rhs(SIM_CASC_PRAC_PO_2)*Unit("%");</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01173.gif" width="123" height="20" alt="PO = 7.99*Unit(["%"])" />
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"></td></tr>
+</table>
+</p>
+<p align="left">
+</p>
+</dl><p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"></td></tr>
+</table>
+</p>
+</dl><p align="left">
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"></td></tr>
+</table>
+</p>
+</dl><dl><a name="MapleAutoBookmark39" />
+<p align="left">
+<b><font color="#000000" size="4">Implementation</font></b>
+</p>
+<p align="left">
+<font color="#000000">Implementing the cascade controller with varying set-point weights.</font>
+</p>
+<p align="left">
+</p>
+<dl><a name="MapleAutoBookmark40" />
+<p align="left">
+<i><b><font color="#000000">With Gains Previously Tuned in Simulation</font></b></i>
+</p>
+<p align="left">
+</p>
+<p align="left">
+<font color="#000000">Steady-state error</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">IMPL_E_SS_1 := e[ss] = -0.225:<br />
+lhs(IMPL_E_SS_1) = evalf[3]( rhs(IMPL_E_SS_1) )*Unit(cm);</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01174.gif" width="134" height="27" alt="e[ss] = -.225*Unit([cm])" />
+</p>
+<p align="left">
+<font color="#000000">Settling time.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">IMPL_TS_1 := t[s] = 3.72:<br />
+lhs(IMPL_TS_1) = rhs(IMPL_TS_1)*Unit(s); </font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01175.gif" width="96" height="27" alt="t[s] = 3.72*Unit([s])" />
+</p>
+<p align="left">
+<font color="#000000">Percentage overshoot</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">IMPL_PO_1 := PO = 12.9:<br />
+lhs(IMPL_PO_1) = rhs(IMPL_PO_1)*Unit("%");</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01176.gif" width="123" height="20" alt="PO = 12.9*Unit(["%"])" />
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"></td></tr>
+</table>
+</p>
+</dl><dl><a name="MapleAutoBookmark41" />
+<p align="left">
+<i><b><font color="#000000">Additional Tuning</font></b></i>
+</p>
+<p align="left">
+<font color="#000000">Percentage overshoot is lowered to generate other gains.</font>
+</p>
+<p align="left">
+</p>
+<p align="left">
+<font color="#000000">Ball and Beam settling time</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">SPEC_BB01_TS_TUNE_2 := t[s] = 3.0:<br />
+lhs(SPEC_BB01_TS_TUNE_2) = rhs(SPEC_BB01_TS_TUNE_2)*Unit(s);</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01177.gif" width="88" height="27" alt="t[s] = 3.0*Unit([s])" />
+</p>
+<p align="left">
+<font color="#000000">Ball and beam percentage overshoot</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">SPEC_BB01_PO_TUNE_2 := PO = 6.5:<br />
+lhs(SPEC_BB01_PO_TUNE_2) = rhs(SPEC_BB01_PO_TUNE_2)*Unit("%");</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01178.gif" width="115" height="20" alt="PO = 6.5*Unit(["%"])" />
+</p>
+<p align="left">
+<font color="#000000">Computed zero location</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">impl_z_val_tune := z = 1.20:<br />
+lhs(impl_z_val_tune) = rhs(impl_z_val_tune)*Unit(rad/s);</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01179.gif" width="113" height="45" alt="z = 1.20*Unit([rad/s])" />
+</p>
+<p align="left">
+<font color="#000000">Computed compensator gain</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">impl_Kc_val_tune := K[c] = 3.95:<br />
+lhs(impl_Kc_val_tune) = rhs(impl_Kc_val_tune)*Unit(rad/m);</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01180.gif" width="125" height="45" alt="K[c] = 3.95*Unit([rad/m])" />
+</p>
+<p align="left">
+<font color="#000000">Steady-state error</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">IMPL_E_SS_2 := e[ss] = -0.396:<br />
+lhs(IMPL_E_SS_2) = evalf[3]( rhs(IMPL_E_SS_2) )*Unit(cm);</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01181.gif" width="134" height="27" alt="e[ss] = -.396*Unit([cm])" />
+</p>
+<p align="left">
+<font color="#000000">Settling time.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">IMPL_TS_2 := t[s] = 3.09:<br />
+lhs(IMPL_TS_2) = rhs(IMPL_TS_2)*Unit(s); </font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01182.gif" width="96" height="27" alt="t[s] = 3.09*Unit([s])" />
+</p>
+<p align="left">
+<font color="#000000">Percentage overshoot</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">IMPL_PO_2 := PO = 9.16:<br />
+lhs(IMPL_PO_2) = rhs(IMPL_PO_2)*Unit("%");</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01183.gif" width="123" height="20" alt="PO = 9.16*Unit(["%"])" />
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"></td></tr>
+</table>
+</p>
+</dl><p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"></td></tr>
+</table>
+</p>
+</dl><dl><a name="MapleAutoBookmark42" />
+<p align="left">
+<b><font color="#000000" size="4">Measured Step</font></b>
+</p>
+<p align="left">
+</p>
+<p align="left">
+<font color="#000000">Steady-state error</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">MEAS_STEP_E_SS := e[ss] = 0.0133:<br />
+lhs(MEAS_STEP_E_SS) = rhs(MEAS_STEP_E_SS)*Unit(rad);</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01184.gif" width="136" height="27" alt="e[ss] = .133e-1*Unit([rad])" />
+</p>
+<p align="left">
+<font color="#000000">Peak time.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">MEAS_STEP_TP := t[p] = 0.079:<br />
+lhs(MEAS_STEP_TP) = rhs(MEAS_STEP_TP)*Unit(s); </font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01185.gif" width="106" height="27" alt="t[p] = .79e-1*Unit([s])" />
+</p>
+<p align="left">
+<font color="#000000">Ideal PV response: percentage overshoot.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">MEAS_STEP_PO := PO = 4.49:<br />
+lhs(MEAS_STEP_PO) = rhs(MEAS_STEP_PO)*Unit("%");</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/srv02_exp04_bb01186.gif" width="123" height="20" alt="PO = 4.49*Unit(["%"])" />
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"></td></tr>
+</table>
+</p>
+</dl></dl><p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"></td></tr>
+</table>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"></td></tr>
+</table>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"></td></tr>
+</table>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"></td></tr>
+</table>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"></td></tr>
+</table>
+</p>
+</basefont>
+</body>
+</html>

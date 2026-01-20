@@ -1,0 +1,923 @@
+{VERSION 6 0 "IBM INTEL NT" "6.0" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 1 255 0 0 1 0 1 0 0 
+1 0 0 0 0 1 }{CSTYLE "2D Math" -1 2 "Times" 0 1 0 0 0 0 0 0 2 0 0 0 0 
+0 0 1 }{CSTYLE "2D Comment" 2 18 "" 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 }
+{CSTYLE "2D Output" 2 20 "" 0 1 0 0 255 1 0 0 0 0 0 0 0 0 0 1 }
+{CSTYLE "" -1 256 "Helvetica" 1 18 0 0 0 0 0 1 0 0 0 0 0 0 0 0 }
+{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "Times" 1 12 0 0 0 1 2 2 2 2 
+2 2 1 1 1 1 }1 1 0 0 0 0 1 0 1 0 2 2 0 1 }{PSTYLE "Heading 1" -1 3 1 
+{CSTYLE "" -1 -1 "Times" 1 18 0 0 0 1 2 1 2 2 2 2 1 1 1 1 }1 1 0 0 8 
+4 1 0 1 0 2 2 0 1 }{PSTYLE "Heading 2" -1 4 1 {CSTYLE "" -1 -1 "Times
+" 1 14 0 0 0 1 2 1 2 2 2 2 1 1 1 1 }1 1 0 0 8 2 1 0 1 0 2 2 0 1 }
+{PSTYLE "Heading 3" -1 5 1 {CSTYLE "" -1 -1 "Times" 1 12 0 0 0 1 1 1 
+2 2 2 2 1 1 1 1 }1 1 0 0 0 0 1 0 1 0 2 2 0 1 }{PSTYLE "Maple Output" 
+-1 11 1 {CSTYLE "" -1 -1 "Times" 1 12 0 0 0 1 2 2 2 2 2 2 1 1 1 1 }3 
+3 0 0 0 0 1 0 1 0 2 2 0 1 }{PSTYLE "Heading 4" -1 20 1 {CSTYLE "" -1 
+-1 "Times" 1 10 0 0 0 1 1 1 2 2 2 2 1 1 1 1 }1 1 0 0 0 0 1 0 1 0 2 2 
+0 1 }{PSTYLE "Maple Output" -1 256 1 {CSTYLE "" -1 -1 "Times" 1 12 0 
+0 0 1 2 2 2 2 2 2 1 1 1 1 }1 3 0 0 0 0 1 0 1 0 2 2 0 1 }}
+{SECT 0 {EXCHG {PARA 256 "" 1 "" {TEXT 256 51 "SRV02 Experiment #4: Ba
+ll and Beam Position Control" }}{PARA 0 "" 0 "" {TEXT -1 121 "This Map
+le worksheet designs a proportional-velocity controller to regular the
+ load angle position to a desired setpoint." }}}{EXCHG {PARA 0 "" 0 "
+" {TEXT -1 22 "Clear Maple workspace." }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 40 "restart; interface( imaginaryunit = j ):" }}}{EXCHG {PARA 0 "" 
+0 "" {TEXT -1 42 "Load library to perform Laplace operations" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 15 "with(inttrans):" }}}{EXCHG {PARA 0 "" 0 "
+" {TEXT -1 27 "Laplace of SRV02 load angle" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 38 "alias( X(s) = laplace( x(t), t, s ) ):" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 52 "alias( Theta[l](s) = laplace( theta
+[l](t), t, s ) ):" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 52 "alias(
+ Theta[d](s) = laplace( theta[d](t), t, s ) ):" }}}{EXCHG {PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 44 "alias( V[m](s) = laplace( V[m](t), t, s ) ):" 
+}}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}{SECT 0 {PARA 3 "" 0 
+"" {TEXT -1 7 "Pre-Lab" }}{SECT 0 {PARA 4 "" 0 "" {TEXT -1 8 "Modeling
+" }}{SECT 0 {PARA 5 "" 0 "" {TEXT -1 12 "Introduction" }}{PARA 0 "" 0 
+"" {TEXT -1 0 "" }}{EXCHG {PARA 0 "" 0 "" {TEXT -1 28 "SRV02+BB01 Tran
+sfer Function" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 56 "tf_srv02_bb01 := P
+(s) = P[bb](s)*P[s](s):\ntf_srv02_bb01;" }}{PARA 11 "" 1 "" {XPPMATH 
+20 "6#/-%\"PG6#%\"sG*&-&F%6#%#bbGF&\"\"\"-&F%F&F&F-" }}}{EXCHG {PARA 
+0 "" 0 "" {TEXT -1 22 "BB01 Transfer Function" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 58 "tf_bb01_gen := P[bb](s) = X(s) / Theta[l](s):\ntf_bb0
+1_gen;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/-&%\"PG6#%#bbG6#%\"sG*&-%\"
+XGF)\"\"\"-&%&ThetaG6#%\"lGF)!\"\"" }}}{EXCHG {PARA 0 "" 0 "" {TEXT 
+-1 23 "SRV02 Transfer Function" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 62 "t
+f_srv02_gen := P[s](s) = Theta[l](s) / V[m](s):\ntf_srv02_gen;" }}
+{PARA 11 "" 1 "" {XPPMATH 20 "6#/-&%\"PG6#%\"sGF'*&-&%&ThetaG6#%\"lGF'
+\"\"\"-&%\"VG6#%\"mGF'!\"\"" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 
+0 "" }}}}{PARA 0 "" 0 "" {TEXT -1 0 "" }}{SECT 0 {PARA 5 "" 0 "" 
+{TEXT -1 20 "SRV02 Position Model" }}{PARA 0 "" 0 "" {TEXT -1 100 "Tra
+nsfer function that represents the position of the SRV02 load gear rel
+ative to the input voltage." }}{EXCHG {PARA 0 "" 0 "" {TEXT -1 25 "Pro
+cess transfer function" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 54 "tf_plant_
+pos := P[s](s) = K/(tau*s+1)/s:\ntf_plant_pos;" }}{PARA 11 "" 1 "" 
+{XPPMATH 20 "6#/-&%\"PG6#%\"sGF'*(%\"KG\"\"\",&*&%$tauGF+F(F+F+F+F+!\"
+\"F(F/" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 31 "With output and input v
+ariables" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 66 "tf_pos_vm := Theta[l](s
+) = rhs(tf_plant_pos) * V[m](s):\ntf_pos_vm;" }}{PARA 11 "" 1 "" 
+{XPPMATH 20 "6#/-&%&ThetaG6#%\"lG6#%\"sG**%\"KG\"\"\",&*&%$tauGF-F*F-F
+-F-F-!\"\"F*F1-&%\"VG6#%\"mGF)F-" }}}{PARA 0 "" 0 "" {TEXT -1 69 "Mode
+l parameters for SRV02-ET in high-gear configuration with no load" }}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 46 "MDL_PRM_SRV02 := \{ K = 1.75
+88, tau = 0.0285 \};" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#>%.MDL_PRM_SRV
+02G<$/%\"KG$\"&)e<!\"%/%$tauG$\"$&GF*" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 0 "" }}}{PARA 0 "" 0 "" {TEXT -1 0 "" }}}{SECT 0 {PARA 5 
+"" 0 "" {TEXT -1 10 "BB01 Model" }}{PARA 0 "" 0 "" {TEXT -1 120 "Ball-
+and-beam model describes the position of the ball with respect to the \+
+angle of the beam relative to the horizontal." }}{SECT 0 {PARA 20 "" 
+0 "" {TEXT -1 36 "Ball Position Relative to Beam Angle" }}{PARA 0 "" 
+0 "" {TEXT -1 0 "" }}{EXCHG {PARA 0 "" 0 "" {TEXT -1 15 "EOM of the fo
+rm" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 65 "EOM_X_ALPHA_GEN := diff(x(t),
+t$2) = f(alpha(t)):\nEOM_X_ALPHA_GEN;" }{TEXT -1 0 "" }}{PARA 11 "" 1 
+"" {XPPMATH 20 "6#/-%%diffG6$-%\"xG6#%\"tG-%\"$G6$F*\"\"#-%\"fG6#-%&al
+phaGF)" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 28 "Newton's First Law of M
+otion" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 45 "F_SUM := m[b]*diff(x(t),t$
+2) = Sum(F):\nF_SUM;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/*&&%\"mG6#%\"
+bG\"\"\"-%%diffG6$-%\"xG6#%\"tG-%\"$G6$F0\"\"#F)-%$SumG6#%\"FG" }}}
+{EXCHG {PARA 0 "" 0 "" {TEXT -1 40 "Forces acting on ball alongside th
+e beam" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 48 "FX := m[b]*diff(x(t),t$2)
+ = F[x,t] - F[x,r]:\nFX;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/*&&%\"mG6
+#%\"bG\"\"\"-%%diffG6$-%\"xG6#%\"tG-%\"$G6$F0\"\"#F),&&%\"FG6$F.F0F)&F
+76$F.%\"rG!\"\"" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 33 "Translational \+
+gravitational force" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 44 "FX_T := F[x,
+t] = m[b]*g*sin(alpha(t)):\nFX_T;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/
+&%\"FG6$%\"xG%\"tG*(&%\"mG6#%\"bG\"\"\"%\"gGF.-%$sinG6#-%&alphaG6#F(F.
+" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 35 "Rotational force from ball mo
+mentum" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 45 "FX_R_GEN := F[x,r] = tau[
+b] / r[b]:\nFX_R_GEN;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/&%\"FG6$%\"x
+G%\"rG*&&%$tauG6#%\"bG\"\"\"&F(F,!\"\"" }}}{EXCHG {PARA 0 "" 0 "" 
+{TEXT -1 21 "Torque acting on ball" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+52 "TAU_B := tau[b] = J[b]*diff(gamma[b](t),t$2):\nTAU_B;" }}{PARA 11 
+"" 1 "" {XPPMATH 20 "6#/&%$tauG6#%\"bG*&&%\"JGF&\"\"\"-%%diffG6$-&%&ga
+mmaGF&6#%\"tG-%\"$G6$F3\"\"#F+" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 61 
+"Relationship between rotation of ball and linear displacement" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "GAMMA_TO_X := x(t) = gamma[b](t)*r[
+b]:\nGAMMA_TO_X;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/-%\"xG6#%\"tG*&-&
+%&gammaG6#%\"bGF&\"\"\"&%\"rGF,F." }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 
+10 "Re-arrange" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 70 "X_TO_GAMMA := gam
+ma[b](t) = solve(GAMMA_TO_X,gamma[b](t)):\nX_TO_GAMMA;" }}{PARA 11 "" 
+1 "" {XPPMATH 20 "6#/-&%&gammaG6#%\"bG6#%\"tG*&-%\"xGF)\"\"\"&%\"rGF'!
+\"\"" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 43 "Put ball torque relative \+
+to linear position" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 43 "TAU_B_X := su
+bs(X_TO_GAMMA,TAU_B):\nTAU_B_X;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/&%
+$tauG6#%\"bG*(&%\"JGF&\"\"\"-%%diffG6$-%\"xG6#%\"tG-%\"$G6$F2\"\"#F+&%
+\"rGF&!\"\"" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 16 "Rotational force" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 37 "FX_R := subs(TAU_B_X,FX_R_GEN):\n
+FX_R;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/&%\"FG6$%\"xG%\"rG*(&%\"JG6#
+%\"bG\"\"\"-%%diffG6$-F'6#%\"tG-%\"$G6$F4\"\"#F.&F(F,!\"#" }}}{EXCHG 
+{PARA 0 "" 0 "" {TEXT -1 42 "Insert translational and rotational force
+s" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 37 "FX_EXP := subs(FX_T,FX_R,FX):
+\nFX_EXP;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/*&&%\"mG6#%\"bG\"\"\"-%%
+diffG6$-%\"xG6#%\"tG-%\"$G6$F0\"\"#F),&*(F%F)%\"gGF)-%$sinG6#-%&alphaG
+F/F)F)*(&%\"JGF'F)F*F)&%\"rGF'!\"#!\"\"" }}}{EXCHG {PARA 0 "" 0 "" 
+{TEXT -1 21 "EOM of x relative to " }{XPPEDIT 18 0 "alpha;" "6#%&alpha
+G" }{TEXT -1 1 "." }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 74 "EOM_X_ALPHA :=
+ diff(x(t),t$2) = solve(FX_EXP,diff(x(t),t$2)):\nEOM_X_ALPHA;" }}
+{PARA 11 "" 1 "" {XPPMATH 20 "6#/-%%diffG6$-%\"xG6#%\"tG-%\"$G6$F*\"\"
+#*,&%\"mG6#%\"bG\"\"\"%\"gGF4-%$sinG6#-%&alphaGF)F4&%\"rGF2F.,&*&F0F4)
+F;F.F4F4&%\"JGF2F4!\"\"" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "
+" }}}}{SECT 0 {PARA 20 "" 0 "" {TEXT -1 37 "Ball Position Relative to \+
+SRV02 Angle" }}{PARA 0 "" 0 "" {TEXT -1 83 "The EOM describing the pos
+ition of the ball with respect to the rotary servo angle." }}{EXCHG 
+{PARA 0 "" 0 "" {TEXT -1 9 "Beam trig" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 52 "TRIG_BEAM := sin(alpha(t)) = h / L[beam]:\nTRIG_BEAM;" }}{PARA 
+11 "" 1 "" {XPPMATH 20 "6#/-%$sinG6#-%&alphaG6#%\"tG*&%\"hG\"\"\"&%\"L
+G6#%%beamG!\"\"" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 10 "Servo trig" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 56 "TRIG_SRV02 := sin(theta[l](t)) = h \+
+/ r[arm]:\nTRIG_SRV02;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/-%$sinG6#-&
+%&thetaG6#%\"lG6#%\"tG*&%\"hG\"\"\"&%\"rG6#%$armG!\"\"" }}}{EXCHG 
+{PARA 0 "" 0 "" {TEXT -1 14 "Height of beam" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 44 "H_SRV02 := h = solve(TRIG_SRV02,h):\nH_SRV02;" }}
+{PARA 11 "" 1 "" {XPPMATH 20 "6#/%\"hG*&-%$sinG6#-&%&thetaG6#%\"lG6#%
+\"tG\"\"\"&%\"rG6#%$armGF0" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 47 "Rel
+ationship between beam angle and servo angle" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 58 "THETA_TO_ALPHA := subs(H_SRV02,TRIG_BEAM):\nTHETA_TO_
+ALPHA;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/-%$sinG6#-%&alphaG6#%\"tG*(
+-F%6#-&%&thetaG6#%\"lGF)\"\"\"&%\"rG6#%$armGF3&%\"LG6#%%beamG!\"\"" }}
+}{EXCHG {PARA 0 "" 0 "" {TEXT -1 48 "Nonlinear EOM of x relative to SR
+V02 load angle " }{XPPEDIT 18 0 "theta[l](t);" "6#-&%&thetaG6#%\"lG6#%
+\"tG" }{TEXT -1 1 "." }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 75 "EOM_X_THETA
+_NONLIN := subs(THETA_TO_ALPHA,EOM_X_ALPHA):\nEOM_X_THETA_NONLIN;" }}
+{PARA 11 "" 1 "" {XPPMATH 20 "6#/-%%diffG6$-%\"xG6#%\"tG-%\"$G6$F*\"\"
+#*0&%\"mG6#%\"bG\"\"\"%\"gGF4-%$sinG6#-&%&thetaG6#%\"lGF)F4&%\"rG6#%$a
+rmGF4&%\"LG6#%%beamG!\"\"&F?F2F.,&*&F0F4)FGF.F4F4&%\"JGF2F4FF" }}}
+{EXCHG {PARA 0 "" 0 "" {TEXT -1 33 "Assume small angles and therefore
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 53 "SINE_LIN := sin(theta[l](t)) = \+
+theta[l](t):\nSINE_LIN;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/-%$sinG6#-
+&%&thetaG6#%\"lG6#%\"tGF'" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 45 "Line
+ar EOM of x relative to SRV02 load angle " }{XPPEDIT 18 0 "theta[l](t)
+;" "6#-&%&thetaG6#%\"lG6#%\"tG" }{TEXT -1 1 "." }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 70 "EOM_X_THETA_LIN := subs(SINE_LIN,EOM_X_THETA_NONLIN):
+\nEOM_X_THETA_LIN;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/-%%diffG6$-%\"x
+G6#%\"tG-%\"$G6$F*\"\"#*0&%\"mG6#%\"bG\"\"\"%\"gGF4-&%&thetaG6#%\"lGF)
+F4&%\"rG6#%$armGF4&%\"LG6#%%beamG!\"\"&F<F2F.,&*&F0F4)FDF.F4F4&%\"JGF2
+F4FC" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 10 "Model gain" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 64 "K_BB := K[bb] = coeff(rhs(EOM_X_THETA_LIN),the
+ta[l](t),1):\nK_BB;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/&%\"KG6#%#bbG*
+.&%\"mG6#%\"bG\"\"\"%\"gGF-&%\"rG6#%$armGF-&%\"LG6#%%beamG!\"\"&F0F+\"
+\"#,&*&F)F-)F8F9F-F-&%\"JGF+F-F7" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 
+14 "Simplified EOM" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 69 "EOM_X_THETA :
+= lhs(EOM_X_THETA_LIN) = K[bb]*theta[l](t):\nEOM_X_THETA;" }}{PARA 11 
+"" 1 "" {XPPMATH 20 "6#/-%%diffG6$-%\"xG6#%\"tG-%\"$G6$F*\"\"#*&&%\"KG
+6#%#bbG\"\"\"-&%&thetaG6#%\"lGF)F4" }}}{EXCHG {PARA 0 "" 0 "" {TEXT 
+-1 31 "Ball and beam system parameters" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 98 "MDL_PRM_BB01 := \{L[beam]=16.75*0.0254, r[arm] = 0.0254, g = 9
+.81, r[b]=0.5*0.0254, m[b] = 0.064 \};" }}{PARA 11 "" 1 "" {XPPMATH 
+20 "6#>%-MDL_PRM_BB01G<'/&%\"LG6#%%beamG$\"']aU!\"'/&%\"rG6#%$armG$\"$
+a#!\"%/%\"gG$\"$\")*!\"#/&F06#%\"bG$\"%q7!\"&/&%\"mGF=$\"#k!\"$" }}}
+{EXCHG {PARA 0 "" 0 "" {TEXT -1 34 "Moment of inertia of solid sphere.
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 36 "J_SPHERE := J = 2/5*m*r^2:\nJ_S
+PHERE;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/%\"JG,$**\"\"#\"\"\"\"\"&!
+\"\"%\"mGF(%\"rGF'F(" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 31 "Moment of
+ inertia of BB01 ball." }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 33 "JB := J[b
+] = 2/5*m[b]*r[b]^2:\nJB;" }{TEXT -1 0 "" }}{PARA 11 "" 1 "" {XPPMATH 
+20 "6#/&%\"JG6#%\"bG,$*&#\"\"#\"\"&\"\"\"*&&%\"mGF&F-)&%\"rGF&F+F-F-F-
+" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 21 "Value of ball inertia" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 82 "JB_VAL := evalf[3](subs(MDL_PRM_BB0
+1,JB)):\nlhs(JB_VAL) = rhs(JB_VAL)*Unit(kg*m^2);" }}{PARA 11 "" 1 "" 
+{XPPMATH 20 "6#/&%\"JG6#%\"bG,$*&$\"$7%!\")\"\"\"-%%UnitG6#7#*&%#kgGF-
+)%\"mG\"\"#F-F-F-" }}}{PARA 0 "" 0 "" {TEXT -1 0 "" }}{EXCHG {PARA 0 "
+" 0 "" {TEXT -1 36 "Add inertia to bb01 model parameters" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 58 "MDL_PRM_BB01 := MDL_PRM_BB01 union \{JB_VAL\}
+:\nMDL_PRM_BB01;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#<(/&%\"LG6#%%beamG
+$\"']aU!\"'/&%\"rG6#%$armG$\"$a#!\"%/%\"gG$\"$\")*!\"#/&F.6#%\"bG$\"%q
+7!\"&/&%\"mGF;$\"#k!\"$/&%\"JGF;$\"$7%!\")" }}}{EXCHG {PARA 0 "" 0 "" 
+{TEXT -1 13 "Evaluate gain" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 93 "K_BB_
+VAL := subs(MDL_PRM_BB01,K_BB):\nlhs(K_BB_VAL) = evalf[3](rhs(K_BB_VAL
+))*Unit(m/s^2/rad);" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/&%\"KG6#%#bbG,
+$*&$\"$>%!\"$\"\"\"-%%UnitG6#7#*(%\"mGF-%\"sG!\"#%$radG!\"\"F-F-" }}}
+{EXCHG {PARA 0 "" 0 "" {TEXT -1 37 "Add to ball and beam model paramet
+ers" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 60 "MDL_PRM_BB01 := MDL_PRM_BB01
+ union \{K_BB_VAL\}:\nMDL_PRM_BB01;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6
+#<)/&%\"LG6#%%beamG$\"']aU!\"'/&%\"rG6#%$armG$\"$a#!\"%/%\"gG$\"$\")*!
+\"#/&F.6#%\"bG$\"%q7!\"&/&%\"mGF;$\"#k!\"$/&%\"JGF;$\"$7%!\")/&%\"KG6#
+%#bbG$\"+AF)f=%!#5" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}}
+{SECT 0 {PARA 20 "" 0 "" {TEXT -1 22 "BB01 Transfer Function" }}{PARA 
+0 "" 0 "" {TEXT -1 94 "Obtain transfer function representing ball disp
+lacement relative to SRV02 motor input voltage." }}{EXCHG {PARA 0 "" 
+0 "" {TEXT -1 18 "Initial conditions" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 32 "IC := \{ x(0) = 0, D(x)(0) = 0 \}:" }}}{EXCHG {PARA 0 "" 0 "" 
+{TEXT -1 15 "Laplace of BB01" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 59 "TF_
+X_THETA_RAW := laplace(EOM_X_THETA,t,s):\nTF_X_THETA_RAW;" }}{PARA 11 
+"" 1 "" {XPPMATH 20 "6#/,(*&)%\"sG\"\"#\"\"\"-%\"XG6#F'F)F)--%\"DG6#%
+\"xG6#\"\"!!\"\"*&F'F)-F1F2F)F4*&&%\"KG6#%#bbGF)-&%&ThetaG6#%\"lGF,F)
+" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 25 "Transfer function of BB01" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 72 "TF_X_THETA := X(s) = solve( subs(IC
+,TF_X_THETA_RAW), X(s) ):\nTF_X_THETA;" }}{PARA 11 "" 1 "" {XPPMATH 
+20 "6#/-%\"XG6#%\"sG*(&%\"KG6#%#bbG\"\"\"-&%&ThetaG6#%\"lGF&F-F'!\"#" 
+}}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 12 "BB01 Process" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 59 "TF_P_BB := P[bb](s) = rhs(TF_X_THETA)/Theta[l](s):
+\nTF_P_BB;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/-&%\"PG6#%#bbG6#%\"sG*&
+&%\"KGF'\"\"\"F*!\"#" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 57 "Transfer \+
+function between SRV02 voltage and ball position" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 47 "TF_X_VM := subs(tf_pos_vm,TF_X_THETA):\nTF_X_VM;" }}
+{PARA 11 "" 1 "" {XPPMATH 20 "6#/-%\"XG6#%\"sG*,&%\"KG6#%#bbG\"\"\"F*F
+-,&*&%$tauGF-F'F-F-F-F-!\"\"F'!\"$-&%\"VG6#%\"mGF&F-" }}}{EXCHG {PARA 
+0 "" 0 "" {TEXT -1 28 "BB01 Plant transfer function" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 62 "TF_PLANT_BB01 := P(s) = rhs(TF_X_VM) / V[m](s):\nT
+F_PLANT_BB01;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/-%\"PG6#%\"sG**&%\"K
+G6#%#bbG\"\"\"F*F-,&*&%$tauGF-F'F-F-F-F-!\"\"F'!\"$" }}}{EXCHG {PARA 
+0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}}{PARA 0 "" 0 "" {TEXT -1 0 "" }}}
+{PARA 0 "" 0 "" {TEXT -1 0 "" }}}{SECT 0 {PARA 4 "" 0 "" {TEXT -1 12 "
+BB01 Control" }}{PARA 0 "" 0 "" {TEXT -1 0 "" }}{SECT 0 {PARA 5 "" 0 "
+" {TEXT -1 19 "Second-Order System" }}{PARA 0 "" 0 "" {TEXT -1 33 "Con
+sider a unity feedback system." }}{EXCHG {PARA 0 "" 0 "" {TEXT -1 50 "
+utput of a unity feedback system with compensator " }{XPPEDIT 18 0 "C(
+s);" "6#-%\"CG6#%\"sG" }{TEXT -1 21 " and a process model " }{XPPEDIT 
+18 0 "P(s);" "6#-%\"PG6#%\"sG" }{TEXT -1 1 "." }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 51 "y_uf := Y(s) = C(s) * P(s) * ( R(s) - Y(s) ):\ny_uf;
+" }{TEXT -1 0 "" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/-%\"YG6#%\"sG*(-%
+\"CGF&\"\"\"-%\"PGF&F+,&-%\"RGF&F+F$!\"\"F+" }}}{EXCHG {PARA 0 "" 0 "
+" {TEXT -1 44 "Closed-loop unity feedback transfer function" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 40 "tf_uf := Y(s) = solve(y_uf,Y(s)):\ntf_uf;
+" }{TEXT -1 0 "" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/-%\"YG6#%\"sG**-%
+\"CGF&\"\"\"-%\"PGF&F+-%\"RGF&F+,&F+F+*&F)F+F,F+F+!\"\"" }}}{EXCHG 
+{PARA 0 "" 0 "" {TEXT -1 28 "Standard second-order system" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 80 "tf_o2 := Y(s)/R(s) = omega[n]^2 / (s^2 + 2*z
+eta*omega[n]*s + omega[n]^2):\ntf_o2;" }{TEXT -1 0 "" }}{PARA 11 "" 1 
+"" {XPPMATH 20 "6#/*&-%\"YG6#%\"sG\"\"\"-%\"RGF'!\"\"*&&%&omegaG6#%\"n
+G\"\"#,(*$)F(F2F)F)**F2F)%%zetaGF)F.F)F(F)F)*$)F.F2F)F)F," }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}}{SECT 0 {PARA 5 "" 0 "" {TEXT 
+-1 26 "Time-Domain Specifications" }}{PARA 0 "" 0 "" {TEXT -1 0 "" }}
+{EXCHG {PARA 0 "" 0 "" {TEXT -1 112 "Steady-state error, peak time, an
+d maximum overshoot specifications of SRV02 closed-loop position step \+
+response." }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 53 "CNTRL_SPECS_SRV02 := \+
+\{e[ss]=0, t[p]=0.15, PO = 5.0 \};" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#
+>%2CNTRL_SPECS_SRV02G<%/&%\"eG6#%#ssG\"\"!/&%\"tG6#%\"pG$\"#:!\"#/%#PO
+G$\"#]!\"\"" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 24 "SRV02 steady-state
+ error" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 73 "SPEC_SRV02_ESS := e[ss] =
+ subs(CNTRL_SPECS_SRV02, e[ss]):\nSPEC_SRV02_ESS;" }}{PARA 11 "" 1 "" 
+{XPPMATH 20 "6#/&%\"eG6#%#ssG\"\"!" }}}{EXCHG {PARA 0 "" 0 "" {TEXT 
+-1 14 "Peak time spec" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 103 "SPEC_SRV0
+2_TP := t[p] = subs(CNTRL_SPECS_SRV02, t[p]):\nlhs(SPEC_SRV02_TP) = rh
+s(SPEC_SRV02_TP)*Unit(s);" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/&%\"tG6#
+%\"pG,$*&$\"#:!\"#\"\"\"-%%UnitG6#7#%\"sGF-F-" }}}{EXCHG {PARA 0 "" 0 
+"" {TEXT -1 15 "SRV02 overshoot" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 101 
+"SPEC_SRV02_PO := PO = subs(CNTRL_SPECS_SRV02, PO):\nlhs(SPEC_SRV02_PO
+) = rhs(SPEC_SRV02_PO)*Unit(\"%\");" }}{PARA 11 "" 1 "" {XPPMATH 20 "6
+#/%#POG,$*&$\"#]!\"\"\"\"\"-%%UnitG6#7#Q\"%6\"F*F*" }}}{EXCHG {PARA 0 
+"" 0 "" {TEXT -1 111 "Steady-state error, peak time, and maximum overs
+hoot specifications of BB01 closed-loop position step response." }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 69 "CNTRL_SPECS_BB01 := \{e[ss]=5e-3, t
+[s]=3.5, c[ts] = 0.04, PO = 10.0 \};" }{TEXT -1 0 "" }}{PARA 11 "" 1 "
+" {XPPMATH 20 "6#>%1CNTRL_SPECS_BB01G<&/&%\"eG6#%#ssG$\"\"&!\"$/&%\"tG
+6#%\"sG$\"#N!\"\"/&%\"cG6#%#tsG$\"\"%!\"#/%#POG$\"$+\"F5" }}}{EXCHG 
+{PARA 0 "" 0 "" {TEXT -1 32 "Ball and beam steady-state error" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 112 "SPEC_BB01_ESS := e[ss] = (subs(CNT
+RL_SPECS_BB01, e[ss])):\nabs(lhs(SPEC_BB01_ESS)) <= rhs(SPEC_BB01_ESS)
+*Unit(m);" }{TEXT -1 0 "" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#1-%$absG6#
+&%\"eG6#%#ssG,$*&$\"\"&!\"$\"\"\"-%%UnitG6#7#%\"mGF0F0" }}}{EXCHG 
+{PARA 0 "" 0 "" {TEXT -1 27 "Ball and Beam settling time" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 99 "SPEC_BB01_TS := t[s] = subs(CNTRL_SPECS_BB01,
+ t[s]):\nlhs(SPEC_BB01_TS) = rhs(SPEC_BB01_TS)*Unit(s);" }{TEXT -1 0 "
+" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/&%\"tG6#%\"sG,$*&$\"#N!\"\"\"\"\"
+-%%UnitG6#7#F'F-F-" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 33 "Ball and be
+am settling percentage" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 70 "SPEC_BB01
+_CTS := c[ts] = subs(CNTRL_SPECS_BB01, c[ts]):\nSPEC_BB01_CTS;" }}
+{PARA 11 "" 1 "" {XPPMATH 20 "6#/&%\"cG6#%#tsG$\"\"%!\"#" }}}{EXCHG 
+{PARA 0 "" 0 "" {TEXT -1 34 "Ball and beam percentage overshoot" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 97 "SPEC_BB01_PO := PO = subs(CNTRL_SPE
+CS_BB01, PO):\nlhs(SPEC_BB01_PO) = rhs(SPEC_BB01_PO)*Unit(\"%\");" }}
+{PARA 11 "" 1 "" {XPPMATH 20 "6#/%#POG,$*&$\"$+\"!\"\"\"\"\"-%%UnitG6#
+7#Q\"%6\"F*F*" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}}
+{PARA 0 "" 0 "" {TEXT -1 0 "" }}{SECT 0 {PARA 5 "" 0 "" {TEXT -1 31 "S
+ettling Time and and Overshoot" }}{PARA 0 "" 0 "" {TEXT -1 70 "Discuss
+es the peak time and overshoot of a second-order step response." }}
+{SECT 0 {PARA 20 "" 0 "" {TEXT -1 11 "Description" }}{PARA 0 "" 0 "" 
+{TEXT -1 0 "" }}{EXCHG {PARA 0 "" 0 "" {TEXT -1 26 "Given the step ref
+erence ." }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "R_STEP := R(s) = R[0]/s
+:\nR_STEP;" }{TEXT -1 0 "" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/-%\"RG6#
+%\"sG*&&F%6#\"\"!\"\"\"F'!\"\"" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 31 
+"Measuring settling time, where " }{XPPEDIT 18 0 "t[1];" "6#&%\"tG6#\"
+\"\"" }{TEXT -1 33 " is the time where the output is " }{XPPEDIT 18 0 
+"100*c[ts];" "6#*&\"$+\"\"\"\"&%\"cG6#%#tsGF%" }{TEXT -1 32 " , e.g. 4
+%, of the steady-state." }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 39 "MEAS_TS \+
+:= t[s] = t[1] - t[0]:\nMEAS_TS;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/&
+%\"tG6#%\"sG,&&F%6#\"\"\"F+&F%6#\"\"!!\"\"" }}}{EXCHG {PARA 0 "" 0 "" 
+{TEXT -1 30 "Measuring percentage overshoot" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 52 "MEAS_PO := PO = 100*(y[max] - R[0]) / R[0]:\nMEAS_PO;
+" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/%#POG,$*(\"$+\"\"\"\",&&%\"yG6#%$
+maxGF(&%\"RG6#\"\"!!\"\"F(F.F2F(" }}}}{SECT 0 {PARA 20 "" 0 "" {TEXT 
+-1 31 "Deriving Settling Time Equation" }}{PARA 0 "" 0 "" {TEXT -1 0 "
+" }}{EXCHG {PARA 0 "" 0 "" {TEXT -1 53 "Upper-bound equation of envelo
+pe of a damped sinusoid" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 76 "EQN_TS_U
+B := y[ub] = 1 + exp(-zeta*omega[n]*t[s])/sqrt(1-zeta^2):\nEQN_TS_UB;
+" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/&%\"yG6#%#ubG,&\"\"\"F)*&-%$expG6
+#,$*(%%zetaGF)&%&omegaG6#%\"nGF)&%\"tG6#%\"sGF)!\"\"F),&F)F)*$)F0\"\"#
+F)F9#F9F=F)" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 24 "Settling time perc
+entage" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "C_TS := c[ts] = y[ub] - 1
+:\nC_TS;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/&%\"cG6#%#tsG,&&%\"yG6#%#
+ubG\"\"\"F-!\"\"" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 48 "Upper bound i
+n terms of settling time percentage" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+40 "Y_UB := y[ub] = solve(C_TS,y[ub]):\nY_UB;" }}{PARA 11 "" 1 "" 
+{XPPMATH 20 "6#/&%\"yG6#%#ubG,&&%\"cG6#%#tsG\"\"\"F-F-" }}}{EXCHG 
+{PARA 0 "" 0 "" {TEXT -1 42 "Exponential term in settling time equatio
+n" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 35 "TS_EXP := exp(-zeta*omega[n]*t
+[s]);" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#>%'TS_EXPG-%$expG6#,$*(%%zeta
+G\"\"\"&%&omegaG6#%\"nGF+&%\"tG6#%\"sGF+!\"\"" }}}{EXCHG {PARA 0 "" 0 
+"" {TEXT -1 74 "Place formula in terms of settling time percentage and
+ solve for exponent." }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 64 "EQN_TS:= TS
+_EXP = solve( subs(Y_UB,EQN_TS_UB), TS_EXP ):\nEQN_TS;" }}{PARA 11 "" 
+1 "" {XPPMATH 20 "6#/-%$expG6#,$*(%%zetaG\"\"\"&%&omegaG6#%\"nGF*&%\"t
+G6#%\"sGF*!\"\"*&&%\"cG6#%#tsGF*,&F*F**$)F)\"\"#F*F3#F*F<" }}}{EXCHG 
+{PARA 0 "" 0 "" {TEXT -1 8 "Take log" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 73 "EQN_TS_LN := evalc( log( lhs(EQN_TS) ) ) = log( rhs(EQN_TS) ):\n
+EQN_TS_LN;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/,$*(%%zetaG\"\"\"&%&ome
+gaG6#%\"nGF'&%\"tG6#%\"sGF'!\"\"-%#lnG6#*&&%\"cG6#%#tsGF',&F'F'*$)F&\"
+\"#F'F0#F'F<" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 23 "Solve for settlin
+g time" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 40 "TS:= t[s] = solve( EQN_TS
+_LN, t[s]):\nTS;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/&%\"tG6#%\"sG,$*(
+-%#lnG6#*&&%\"cG6#%#tsG\"\"\",&F2F2*$)%%zetaG\"\"#F2!\"\"#F2F7F2F6F8&%
+&omegaG6#%\"nGF8F8" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 81 "Minimum nat
+ural frequency required to meet peak time and overshoot specification.
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 46 "WN_TS := omega[n] = solve(TS,om
+ega[n]):\nWN_TS;" }}{PARA 0 "" 0 "" {TEXT -1 0 "" }}{PARA 11 "" 1 "" 
+{XPPMATH 20 "6#/&%&omegaG6#%\"nG,$*(-%#lnG6#*&&%\"cG6#%#tsG\"\"\",&F2F
+2*$)%%zetaG\"\"#F2!\"\"#F2F7F2F6F8&%\"tG6#%\"sGF8F8" }}}{EXCHG {PARA 
+0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}}{SECT 0 {PARA 20 "" 0 "" {TEXT -1 
+54 "Percentage Overshoot and Peak Time Equations for SRV02" }}{PARA 0 
+"" 0 "" {TEXT -1 0 "" }}{EXCHG {PARA 0 "" 0 "" {TEXT -1 38 "Second-ord
+er system peak time equation" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 48 "TP \+
+:= t[p] = Pi / (omega[n]*sqrt(1-zeta^2)):\nTP;" }{TEXT -1 0 "" }}
+{PARA 11 "" 1 "" {XPPMATH 20 "6#/&%\"tG6#%\"pG*(%#PiG\"\"\"&%&omegaG6#
+%\"nG!\"\",&F*F**$)%%zetaG\"\"#F*F/#F/F4" }}}{EXCHG {PARA 0 "" 0 "" 
+{TEXT -1 37 "Maximum percentage overshoot equation" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 48 "OS := PO = 100*exp(-Pi*zeta/sqrt(1-zeta^2)):\nOS;" 
+}}{PARA 11 "" 1 "" {XPPMATH 20 "6#/%#POG,$*&\"$+\"\"\"\"-%$expG6#,$*(%
+#PiGF(%%zetaGF(,&F(F(*$)F/\"\"#F(!\"\"#F4F3F4F(F(" }}}{PARA 0 "" 0 "" 
+{TEXT -1 0 "" }}{EXCHG {PARA 0 "" 0 "" {TEXT -1 68 "Find minimum dampi
+ng ratio required to meet overshoot specification." }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 36 "ZETA := zeta = solve(OS,zeta):\nZETA;" }}{PARA 11 "
+" 1 "" {XPPMATH 20 "6#/%%zetaG,$*&-%#lnG6#,$*&\"$+\"!\"\"%#POG\"\"\"F/
+F/*&F/F/,&*$)F'\"\"#F/F/*$)%#PiGF4F/F/F-#F/F4F-" }}}{EXCHG {PARA 0 "" 
+0 "" {TEXT -1 81 "Minimum natural frequency required to meet peak time
+ and overshoot specification." }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 40 "WN
+ := omega[n] = solve(TP,omega[n]):\nWN;" }{TEXT -1 0 "" }}{PARA 11 "" 
+1 "" {XPPMATH 20 "6#/&%&omegaG6#%\"nG*(%#PiG\"\"\"&%\"tG6#%\"pG!\"\",&
+F*F**$)%%zetaG\"\"#F*F/#F/F4" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 
+0 0 "" }}}}{PARA 0 "" 0 "" {TEXT -1 0 "" }}}{SECT 0 {PARA 5 "" 0 "" 
+{TEXT -1 18 "Steady-state Error" }}{PARA 0 "" 0 "" {TEXT -1 90 "See wh
+ether controlling the position with a PV feedback will give zero stead
+y-state error." }}{EXCHG {PARA 0 "" 0 "" {TEXT -1 28 "Measuring steady
+-state error" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "MEAS_ESS := e[ss] =
+ r[ss](t) - y[ss](t):\nMEAS_ESS;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/&
+%\"eG6#%#ssG,&-&%\"rGF&6#%\"tG\"\"\"-&%\"yGF&F,!\"\"" }}}{EXCHG {PARA 
+0 "" 0 "" {TEXT -1 23 "Error in unity feedback" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 31 "err := E(s) = R(s) - Y(s):\nerr;" }}{PARA 11 "" 1 "" 
+{XPPMATH 20 "6#/-%\"EG6#%\"sG,&-%\"RGF&\"\"\"-%\"YGF&!\"\"" }}}{EXCHG 
+{PARA 0 "" 0 "" {TEXT -1 10 "Find error" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 44 "tf_err := simplify(subs(tf_uf,err)):\ntf_err;" }}{PARA 11 "" 
+1 "" {XPPMATH 20 "6#/-%\"EG6#%\"sG*&-%\"RGF&\"\"\",&F+F+*&-%\"CGF&F+-%
+\"PGF&F+F+!\"\"" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 60 "and the assumi
+ng the compensator is a proportional gain of 1" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 29 "C_UNITY := C(s) = 1:\nC_UNITY;" }}{PARA 11 "" 1 "" 
+{XPPMATH 20 "6#/-%\"CG6#%\"sG\"\"\"" }}}{EXCHG {PARA 0 "" 0 "" {TEXT 
+-1 40 "Steady-state error of BB01 ball position" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 86 "tf_err_Pbb_step := subs(R_STEP,P(s)=P[bb](s),TF_P_BB,
+C_UNITY,tf_err):\ntf_err_Pbb_step;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#
+/-%\"EG6#%\"sG*(&%\"RG6#\"\"!\"\"\"F'!\"\",&F-F-*&&%\"KG6#%#bbGF-F'!\"
+#F-F." }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 29 "When simplified, is expr
+essed" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 28 "simplify( tf_err_Pbb_step \+
+);" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/-%\"EG6#%\"sG*(&%\"RG6#\"\"!\"
+\"\"F'F-,&*$)F'\"\"#F-F-&%\"KG6#%#bbGF-!\"\"" }}}{EXCHG {PARA 0 "" 0 "
+" {TEXT -1 69 "Cannot find steady-state error using FVT, therefore fin
+d eom of error" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 83 "eom_err_bb_step :
+= e(t) = invlaplace( rhs(tf_err_Pbb_step), s, t):\neom_err_bb_step;" }
+}{PARA 11 "" 1 "" {XPPMATH 20 "6#/-%\"eG6#%\"tG*&&%\"RG6#\"\"!\"\"\"-%
+$cosG6#*&&%\"KG6#%#bbG#F-\"\"#F'F-F-" }}}{EXCHG {PARA 0 "" 0 "" {TEXT 
+-1 60 "There is no constant steady-state error with unity feedback." }
+}}{PARA 0 "" 0 "" {TEXT -1 0 "" }}{PARA 0 "" 0 "" {TEXT -1 0 "" }}}
+{PARA 4 "" 0 "" {TEXT -1 0 "" }}{SECT 0 {PARA 5 "" 0 "" {TEXT -1 32 "S
+RV02 PV Position Control Design" }}{PARA 0 "" 0 "" {TEXT -1 76 "Design
+ PV control gains according to peak time and overshoot specifications.
+" }}{SECT 0 {PARA 20 "" 0 "" {TEXT -1 20 "Closed-loop Equation" }}
+{EXCHG {PARA 0 "" 0 "" {TEXT -1 46 "The PV control in the time-domain \+
+has the form" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 109 "ctrl_pv_time := V[
+m](t) = k[p] * ( theta[d](t) - theta[l](t) ) - k[v] * diff( theta[l](t
+), t ):\nctrl_pv_time;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/-&%\"VG6#%
+\"mG6#%\"tG,&*&&%\"kG6#%\"pG\"\"\",&-&%&thetaG6#%\"dGF)F1-&F56#%\"lGF)
+!\"\"F1F1*&&F.6#%\"vGF1-%%diffG6$F8F*F1F<" }}}{EXCHG {PARA 0 "" 0 "" 
+{TEXT -1 31 "Transfer function of PV control" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 98 "ctrl_pv_tf := V[m](s) = k[p] * ( Theta[d](s) - Theta[
+l](s) ) - k[v] * s * Theta[l](s):\nctrl_pv_tf;" }}{PARA 11 "" 1 "" 
+{XPPMATH 20 "6#/-&%\"VG6#%\"mG6#%\"sG,&*&&%\"kG6#%\"pG\"\"\",&-&%&Thet
+aG6#%\"dGF)F1-&F56#%\"lGF)!\"\"F1F1*(&F.6#%\"vGF1F*F1F8F1F<" }}}{PARA 
+0 "" 0 "" {TEXT -1 56 "Closed-loop SRV02 PV position control transfer \+
+function." }}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 130 "tf_cls_pos := \+
+Theta[l](s) / Theta[d](s) = collect( solve( subs(ctrl_pv_tf,tf_pos_vm)
+, Theta[l](s) ) / Theta[d](s), s):\ntf_cls_pos;" }}{PARA 11 "" 1 "" 
+{XPPMATH 20 "6#/*&-&%&ThetaG6#%\"lG6#%\"sG\"\"\"-&F'6#%\"dGF*!\"\"*(%
+\"KGF,&%\"kG6#%\"pGF,,(*&)F+\"\"#F,%$tauGF,F,*&,&F,F,*&F3F,&F56#%\"vGF
+,F,F,F+F,F,*&F3F,F4F,F,F1" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 
+"" }}}{PARA 0 "" 0 "" {TEXT -1 0 "" }}}{SECT 0 {PARA 20 "" 0 "" {TEXT 
+-1 39 "Finding Gains to Satisfy Specifications" }}{EXCHG {PARA 0 "" 0 
+"" {TEXT -1 35 "Standard characteristic equation is" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 52 "char_eqn_std := denom( rhs( tf_o2 ) ):\nchar_eqn_s
+td;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#,(*$)%\"sG\"\"#\"\"\"F(**F'F(%%
+zetaGF(&%&omegaG6#%\"nGF(F&F(F(*$)F+F'F(F(" }}}{EXCHG {PARA 0 "" 0 "" 
+{TEXT -1 42 "Denominator of SRV02 closed-loop system is" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 56 "tf_cls_denom := denom( rhs( tf_cls_pos) ):\ntf
+_cls_denom;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#,**&)%\"sG\"\"#\"\"\"%$
+tauGF(F(F&F(*&%\"KGF(&%\"kG6#%\"pGF(F(*(F+F(&F-6#%\"vGF(F&F(F(" }}}
+{EXCHG {PARA 0 "" 0 "" {TEXT -1 49 "Re-arranged to fit characteristic \+
+equation format" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 87 "char_eqn_srv02 :
+= collect( tf_cls_denom / coeff(tf_cls_denom,s,2), s ):\nchar_eqn_srv0
+2;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#,(*$)%\"sG\"\"#\"\"\"F(*(,&F(F(*
+&%\"KGF(&%\"kG6#%\"vGF(F(F(%$tauG!\"\"F&F(F(*(F,F(&F.6#%\"pGF(F1F2F(" 
+}}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 79 "Setup equations to calculate th
+e proportional and derivative gains needed for (" }{XPPEDIT 18 0 "omeg
+a[n];" "6#&%&omegaG6#%\"nG" }{TEXT -1 1 "," }{XPPEDIT 18 0 "zeta;" "6#
+%%zetaG" }{TEXT -1 17 ") specifications." }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 70 "KP_eqn := coeff(char_eqn_srv02,s,0) = coeff(char_eqn_
+std,s,0):\nKP_eqn;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/*(%\"KG\"\"\"&%
+\"kG6#%\"pGF&%$tauG!\"\"*$)&%&omegaG6#%\"nG\"\"#F&" }}}{EXCHG {PARA 0 
+"> " 0 "" {MPLTEXT 1 0 70 "KV_eqn := coeff(char_eqn_srv02,s,1) = coeff
+(char_eqn_std,s,1):\nKV_eqn;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/*&,&
+\"\"\"F&*&%\"KGF&&%\"kG6#%\"vGF&F&F&%$tauG!\"\",$*(\"\"#F&%%zetaGF&&%&
+omegaG6#%\"nGF&F&" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 24 "Proportional
+ gain needed" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 36 "KP := k[p] = solve(
+KP_eqn,k[p]):\nKP;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/&%\"kG6#%\"pG*(
+&%&omegaG6#%\"nG\"\"#%\"KG!\"\"%$tauG\"\"\"" }}}{EXCHG {PARA 0 "" 0 "
+" {TEXT -1 22 "Derivative gain needed" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 36 "KV := k[v] = solve(KV_eqn,k[v]):\nKV;" }}{PARA 11 "" 1 "" 
+{XPPMATH 20 "6#/&%\"kG6#%\"vG*&,&\"\"\"!\"\"**\"\"#F*%%zetaGF*&%&omega
+G6#%\"nGF*%$tauGF*F*F*%\"KGF+" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 46 "
+Evaluate damping ratio required to meet specs." }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 63 "ZETA_VAL := evalf[3]( subs(CNTRL_SPECS_SRV02,ZETA) ):
+\nZETA_VAL;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/%%zetaG$\"$!p!\"$" }}}
+{EXCHG {PARA 0 "" 0 "" {TEXT -1 48 "Evaluate natural frequency needed \+
+to meet specs." }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 99 "WN_VAL := evalf[3
+]( subs(CNTRL_SPECS_SRV02, ZETA_VAL, WN) ):\nlhs(WN_VAL) = rhs(WN_VAL)
+*Unit(rad/s);" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/&%&omegaG6#%\"nG,$*&
+$\"$*G!\"\"\"\"\"-%%UnitG6#7#*&%$radGF-%\"sGF,F-F-" }}}{EXCHG {PARA 0 
+"" 0 "" {TEXT -1 28 "Steady-state model parameter" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 86 "MDL_K := K = subs(MDL_PRM_SRV02,K):\nlhs(MDL_K) = e
+valf[3]( rhs(MDL_K) )*Unit(rad/s/V);" }}{PARA 11 "" 1 "" {XPPMATH 20 "
+6#/%\"KG,$*&$\"$w\"!\"#\"\"\"-%%UnitG6#7#*(%$radGF*%\"sG!\"\"%\"VGF2F*
+F*" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 29 "Time constant model paramet
+er" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 90 "MDL_TAU := tau = subs(MDL_PRM
+_SRV02,tau):\nlhs(MDL_TAU) = evalf[3]( rhs(MDL_TAU) )*Unit(s);" }}
+{PARA 11 "" 1 "" {XPPMATH 20 "6#/%$tauG,$*&$\"$&G!\"%\"\"\"-%%UnitG6#7
+#%\"sGF*F*" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 106 "Proportional contr
+ols gain needed to meet the time-domain specifications given the model
+ parameters above." }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 91 "KP_VAL := eva
+lf[3]( subs(MDL_PRM_SRV02,WN_VAL,KP) ):\nlhs(KP_VAL) = rhs(KP_VAL)*Uni
+t(V/rad);" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/&%\"kG6#%\"pG,$*&$\"$N\"
+!\"\"\"\"\"-%%UnitG6#7#*&%\"VGF-%$radGF,F-F-" }}}{PARA 0 "" 0 "" 
+{TEXT -1 104 "Derivative controls gain needed to meet the time-domain \+
+specifications given the model parameters above." }}{EXCHG {PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 102 "KV_VAL := evalf[3]( subs(MDL_PRM_SRV02,WN_VAL
+,ZETA_VAL,KV) ):\nlhs(KV_VAL) = rhs(KV_VAL)*Unit(V*s/rad);" }{TEXT -1 
+0 "" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/&%\"kG6#%\"vG,$*&$\"#y!\"$\"\"
+\"-%%UnitG6#7#*(%\"VGF-%\"sGF-%$radG!\"\"F-F-" }}}}{PARA 20 "" 0 "" 
+{TEXT -1 0 "" }}}{SECT 0 {PARA 5 "" 0 "" {TEXT -1 29 "SRV02+BB01 Stabi
+lity Analysis" }}{PARA 0 "" 0 "" {TEXT -1 85 "Before designing the cac
+ade control, some analysis is performed on the entire system." }}
+{SECT 0 {PARA 20 "" 0 "" {TEXT -1 30 "Root-Locus of Open-Loop System" 
+}}{PARA 0 "" 0 "" {TEXT -1 141 "Based on settling time and percentage \+
+overshoot equations, find the natural frequency and damping ratio need
+ed and draw those on the S-Plane." }}{EXCHG {PARA 0 "" 0 "" {TEXT -1 
+114 "Position of SRV02 is controlled and it assumed that there are no \+
+dynamics between the votlage and load shaft. Thus" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 60 "theta_d_l_time := theta[l](t) = theta[d](t):\ntheta
+_d_l_time;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/-&%&thetaG6#%\"lG6#%\"t
+G-&F&6#%\"dGF)" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 10 "In Laplace" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 58 "theta_d_l_s := laplace((theta_d_l_t
+ime),t,s):\ntheta_d_l_s;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/-&%&Theta
+G6#%\"lG6#%\"sG-&F&6#%\"dGF)" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 55 "C
+onsider the BB01 compensator, i.e. outer-loop control." }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 78 "tf_bb01_ctrl_C := Theta[d](s) = C[bb](s) * ( X
+[d](s) - X(s) ):\ntf_bb01_ctrl_C;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/
+-&%&ThetaG6#%\"dG6#%\"sG*&-&%\"CG6#%#bbGF)\"\"\",&-&%\"XGF'F)F1-F5F)!
+\"\"F1" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 24 "Proportional compensato
+r" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 34 "tf_C_p := C[bb](s) = K[c]:\ntf
+_C_p;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/-&%\"CG6#%#bbG6#%\"sG&%\"KG6
+#%\"cG" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 39 "BB01 controller with un
+ity compensator " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 63 "tf_bb01_ctrl_p \+
+:= subs(tf_C_p, tf_bb01_ctrl_C):\ntf_bb01_ctrl_p;" }}{PARA 11 "" 1 "" 
+{XPPMATH 20 "6#/-&%&ThetaG6#%\"dG6#%\"sG*&&%\"KG6#%\"cG\"\"\",&-&%\"XG
+F'F)F0-F4F)!\"\"F0" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 56 "Closed-loop
+ system of BB01 with proportional compensator" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 116 "tf_bb01_cls_p := X(s)/X[d](s) = solve( subs(theta_d_
+l_s, tf_bb01_ctrl_p, TF_X_THETA), X(s) )/X[d](s):\ntf_bb01_cls_p;" }}
+{PARA 11 "" 1 "" {XPPMATH 20 "6#/*&-%\"XG6#%\"sG\"\"\"-&F&6#%\"dGF'!\"
+\"*(&%\"KG6#%#bbGF)&F16#%\"cGF),&*$)F(\"\"#F)F)*&F0F)F4F)F)F." }}}
+{EXCHG {PARA 0 "" 0 "" {TEXT -1 12 "Poles of CLS" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 73 "tf_bb01_cls_p_poles := \{K[bb]*K[c]*j,-K[bb]*K[c]*j\}
+:\ntf_bb01_cls_p_poles;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#<$*(^#!\"\"
+\"\"\"&%\"KG6#%#bbGF'&F)6#%\"cGF'*(F(F'F,F'^#F'F'" }}}{EXCHG {PARA 0 "
+" 0 "" {TEXT -1 127 "As the poles of system move further along the ima
+ginary axis and the system becomes more oscillatory (generally more un
+stable)." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}}{SECT 0 
+{PARA 20 "" 0 "" {TEXT -1 25 "Desired Location of Poles" }}{PARA 0 "" 
+0 "" {TEXT -1 0 "" }}{EXCHG {PARA 0 "" 0 "" {TEXT -1 40 "Recall the pr
+ototype second order system" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 6 "tf_o2
+;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/*&-%\"YG6#%\"sG\"\"\"-%\"RGF'!\"
+\"*&&%&omegaG6#%\"nG\"\"#,(*$)F(F2F)F)**F2F)%%zetaGF)F.F)F(F)F)*$)F.F2
+F)F)F," }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 34 "Example: desired natura
+l frequency" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 61 "EX_WN := omega[n] = \+
+1.5:\nlhs(EX_WN) = rhs(EX_WN)*Unit(rad/s);" }}{PARA 11 "" 1 "" 
+{XPPMATH 20 "6#/&%&omegaG6#%\"nG,$*&$\"#:!\"\"\"\"\"-%%UnitG6#7#*&%$ra
+dGF-%\"sGF,F-F-" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 30 "Example: desir
+ed damping ratio" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 31 "EX_ZETA := zeta
+ = 0.6:\nEX_ZETA;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/%%zetaG$\"\"'!\"
+\"" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 37 "Location of poles along the
+ real axis" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 56 "pole_loc_sigma := sig
+ma = zeta*omega[n]:\npole_loc_sigma;" }}{PARA 11 "" 1 "" {XPPMATH 20 "
+6#/%&sigmaG*&%%zetaG\"\"\"&%&omegaG6#%\"nGF'" }}}{EXCHG {PARA 0 "" 0 "
+" {TEXT -1 66 "Location of poles along the imaginary axis is the dampe
+d frequency" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 63 "pole_loc_wd := omega
+[d] = omega[n]*sqrt(1-zeta^2):\npole_loc_wd;" }}{PARA 11 "" 1 "" 
+{XPPMATH 20 "6#/&%&omegaG6#%\"dG*&&F%6#%\"nG\"\"\",&F,F,*$)%%zetaG\"\"
+#F,!\"\"#F,F1" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 53 "Angle of poles f
+rom imaginary axis from damping ratio" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 55 "pole_loc_angle := theta = arcsin(zeta):\npole_loc_angle;" }}
+{PARA 11 "" 1 "" {XPPMATH 20 "6#/%&thetaG-%'arcsinG6#%%zetaG" }}}
+{EXCHG {PARA 0 "" 0 "" {TEXT -1 46 "Evaluate damping ratio required to
+ meet specs." }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 72 "ZETA_VAL_BB01 := ev
+alf[3]( subs(CNTRL_SPECS_BB01,ZETA) ):\nZETA_VAL_BB01;" }}{PARA 11 "" 
+1 "" {XPPMATH 20 "6#/%%zetaG$\"$\"f!\"$" }}}{EXCHG {PARA 0 "" 0 "" 
+{TEXT -1 48 "Evaluate natural frequency needed to meet specs." }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 121 "WN_VAL_BB01 := evalf[3]( subs(CNTR
+L_SPECS_BB01, ZETA_VAL_BB01, WN_TS) ):\nlhs(WN_VAL_BB01) = rhs(WN_VAL_
+BB01)*Unit(rad/s);" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/&%&omegaG6#%\"n
+G,$*&$\"$m\"!\"#\"\"\"-%%UnitG6#7#*&%$radGF-%\"sG!\"\"F-F-" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}{PARA 0 "" 0 "" {TEXT -1 0 "" }
+}}{PARA 0 "" 0 "" {TEXT -1 0 "" }}}{PARA 5 "" 0 "" {TEXT -1 0 "" }}
+{SECT 0 {PARA 5 "" 0 "" {TEXT -1 22 "BB01 Root Locus Design" }}{PARA 
+0 "" 0 "" {TEXT -1 0 "" }}{SECT 0 {PARA 20 "" 0 "" {TEXT -1 20 "Closed
+-loop Equation" }}{EXCHG {PARA 0 "" 0 "" {TEXT -1 82 "Consider a compe
+nsator with a proportional gain and a zero, i.e. ideal PD control." }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 44 "tf_C_pd := C[bb](s) = K[c] * (s+z):
+\ntf_C_pd;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/-&%\"CG6#%#bbG6#%\"sG*&
+&%\"KG6#%\"cG\"\"\",&F*F0%\"zGF0F0" }}}{EXCHG {PARA 0 "" 0 "" {TEXT 
+-1 30 "Loop transfer function of BB01" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 43 "tf_L := L[bb](s) = C[bb](s)*P[bb](s):\ntf_L;" }}{PARA 11 "" 1 "
+" {XPPMATH 20 "6#/-&%\"LG6#%#bbG6#%\"sG*&-&%\"CGF'F)\"\"\"-&%\"PGF'F)F
+/" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 19 "Ideal PD controller" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 66 "tf_bb01_ctrl_pd := subs(tf_C_pd, tf
+_bb01_ctrl_C):\ntf_bb01_ctrl_pd;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/-
+&%&ThetaG6#%\"dG6#%\"sG*(&%\"KG6#%\"cG\"\"\",&F*F0%\"zGF0F0,&-&%\"XGF'
+F)F0-F6F)!\"\"F0" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 61 "Ideal PD clos
+ed-loop BB01 position control transfer function." }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 132 "tf_bb01_cls_pd := X(s)/ X[d](s) = collect( solve( su
+bs(theta_d_l_s,tf_bb01_ctrl_pd,TF_X_THETA), X(s) ), s )/X[d](s):\ntf_b
+b01_cls_pd;" }{TEXT -1 0 "" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/*&-%\"X
+G6#%\"sG\"\"\"-&F&6#%\"dGF'!\"\"**&%\"KG6#%#bbGF)&F16#%\"cGF),&F(F)%\"
+zGF)F),(*$)F(\"\"#F)F)*(F0F)F4F)F(F)F)*(F0F)F4F)F8F)F)F." }}}{EXCHG 
+{PARA 0 "" 0 "" {TEXT -1 19 "Ideal PV controller" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 85 "tf_bb01_ctrl_pv := Theta[d](s) = K[c]*( z*(X[d](s)-X(
+s)) - s*X(s) ):\ntf_bb01_ctrl_pv;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/
+-&%&ThetaG6#%\"dG6#%\"sG*&&%\"KG6#%\"cG\"\"\",&*&%\"zGF0,&-&%\"XGF'F)F
+0-F7F)!\"\"F0F0*&F*F0F8F0F9F0" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 61 "
+Ideal PV closed-loop BB01 position control transfer function." }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 132 "tf_bb01_cls_pv := X(s)/ X[d](s) = \+
+collect( solve( subs(theta_d_l_s,tf_bb01_ctrl_pv,TF_X_THETA), X(s) ), \+
+s )/X[d](s):\ntf_bb01_cls_pv;" }{TEXT -1 0 "" }}{PARA 11 "" 1 "" 
+{XPPMATH 20 "6#/*&-%\"XG6#%\"sG\"\"\"-&F&6#%\"dGF'!\"\"**&%\"KG6#%#bbG
+F)&F16#%\"cGF)%\"zGF),(*$)F(\"\"#F)F)*(F0F)F4F)F(F)F)*(F0F)F4F)F7F)F)F
+." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}{PARA 0 "" 0 "" 
+{TEXT -1 0 "" }}}{SECT 0 {PARA 20 "" 0 "" {TEXT -1 36 "Steady-State Er
+ror using Compensator" }}{PARA 0 "" 0 "" {TEXT -1 0 "" }}{EXCHG {PARA 
+0 "" 0 "" {TEXT -1 63 "Steady-state error of BB01 ball position using \+
+Lead compensator" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 108 "tf_err_bb01_st
+ep_pd := subs(R_STEP,P(s)=P[bb](s),C(s)=C[bb](s),TF_P_BB,tf_C_pd,tf_er
+r):\ntf_err_bb01_step_pd;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/-%\"EG6#
+%\"sG*(&%\"RG6#\"\"!\"\"\"F'!\"\",&F-F-**&%\"KG6#%\"cGF-,&F'F-%\"zGF-F
+-&F26#%#bbGF-F'!\"#F-F." }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 8 "Simplif
+y" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "simplify(tf_err_bb01_step_pd);
+" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/-%\"EG6#%\"sG*(&%\"RG6#\"\"!\"\"
+\"F'F-,(*$)F'\"\"#F-F-*(&%\"KG6#%#bbGF-&F46#%\"cGF-F'F-F-*(F3F-F7F-%\"
+zGF-F-!\"\"" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 19 "Final-value theore
+m" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 40 "E_SS := e[ss] = Limit(s*E(s),s
+=0):\nE_SS;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/&%\"eG6#%#ssG-%&LimitG
+6$*&%\"sG\"\"\"-%\"EG6#F,F-/F,\"\"!" }}}{EXCHG {PARA 0 "" 0 "" {TEXT 
+-1 10 "Sub in FVT" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 41 "simplify(subs(
+tf_err_bb01_step_pd,E_SS));" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/&%\"eG
+6#%#ssG*&&%\"RG6#\"\"!\"\"\"-%&LimitG6$*&%\"sG\"\"#,(*$)F2F3F-F-*(&%\"
+KG6#%#bbGF-&F96#%\"cGF-F2F-F-*(F8F-F<F-%\"zGF-F-!\"\"/F2F,F-" }}}
+{EXCHG {PARA 0 "" 0 "" {TEXT -1 44 "Resulting position error - system \+
+is Type 1." }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 78 "E_SS_STEP_VAL := e[ss
+] = limit(s*rhs(tf_err_bb01_step_pd),s=0):\nE_SS_STEP_VAL;" }}{PARA 
+11 "" 1 "" {XPPMATH 20 "6#/&%\"eG6#%#ssG\"\"!" }}}{EXCHG {PARA 0 "" 0 
+"" {TEXT -1 216 "However, there is a steady-state error found in the a
+ctual system and when simulating the device with its nonlinear model. \+
+The controller will have to be tuned in order to confirm to the necess
+ary steady-state error." }}}{PARA 0 "" 0 "" {TEXT -1 0 "" }}}{SECT 0 
+{PARA 20 "" 0 "" {TEXT -1 56 "Finding Zero Location and Gain to Satisf
+y Specifications" }}{PARA 0 "" 0 "" {TEXT -1 0 "" }}{EXCHG {PARA 0 "" 
+0 "" {TEXT -1 40 "Recall the prototype second-order system" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 6 "tf_o2;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/*
+&-%\"YG6#%\"sG\"\"\"-%\"RGF'!\"\"*&&%&omegaG6#%\"nG\"\"#,(*$)F(F2F)F)*
+*F2F)%%zetaGF)F.F)F(F)F)*$)F.F2F)F)F," }}}{EXCHG {PARA 0 "" 0 "" 
+{TEXT -1 23 "Characteristic equation" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 55 "char_eqn_bb := denom(rhs(tf_bb01_cls_pv)):\nchar_eqn_bb;" }}
+{PARA 11 "" 1 "" {XPPMATH 20 "6#,(*$)%\"sG\"\"#\"\"\"F(*(&%\"KG6#%#bbG
+F(&F+6#%\"cGF(F&F(F(*(F*F(F.F(%\"zGF(F(" }}}{EXCHG {PARA 0 "" 0 "" 
+{TEXT -1 22 "Desired gain equation " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+75 "eqn_des_Kc := coeff(char_eqn_bb,s,1) = coeff(char_eqn_std,s,1):\ne
+qn_des_Kc;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/*&&%\"KG6#%#bbG\"\"\"&F
+&6#%\"cGF),$*(\"\"#F)%%zetaGF)&%&omegaG6#%\"nGF)F)" }}}{EXCHG {PARA 0 
+"" 0 "" {TEXT -1 21 "Desired zero location" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 79 "eqn_des_zero := coeff(char_eqn_bb,s,0) = coeff(char_e
+qn_std,s,0):\neqn_des_zero;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/*(&%\"
+KG6#%#bbG\"\"\"&F&6#%\"cGF)%\"zGF)*$)&%&omegaG6#%\"nG\"\"#F)" }}}
+{EXCHG {PARA 0 "" 0 "" {TEXT -1 12 "Desired gain" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 51 "des_Kc := K[c] = solve( eqn_des_Kc, K[c] ):\ndes_Kc;
+" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/&%\"KG6#%\"cG,$**\"\"#\"\"\"%%zet
+aGF+&%&omegaG6#%\"nGF+&F%6#%#bbG!\"\"F+" }}}{EXCHG {PARA 0 "" 0 "" 
+{TEXT -1 21 "Desired zero location" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+44 "des_z := z = solve( eqn_des_zero, z):\ndes_z;" }}{PARA 11 "" 1 "" 
+{XPPMATH 20 "6#/%\"zG*(&%&omegaG6#%\"nG\"\"#&%\"KG6#%#bbG!\"\"&F,6#%\"
+cGF/" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 25 "Computed compensator gain
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 128 "des_Kc_val := evalf[3]( subs(M
+DL_PRM_BB01, ZETA_VAL_BB01, WN_VAL_BB01, des_Kc) ):\nlhs(des_Kc_val) =
+ rhs(des_Kc_val)*Unit(rad/m);" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/&%\"
+KG6#%\"cG,$*&$\"$o%!\"#\"\"\"-%%UnitG6#7#*&%$radGF-%\"mG!\"\"F-F-" }}}
+{EXCHG {PARA 0 "" 0 "" {TEXT -1 23 "Evaluated zero location" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 133 "des_z_val := evalf[3]( subs(ZETA_VAL_BB0
+1, WN_VAL_BB01, K_BB_VAL, des_Kc_val, des_z) ):\nlhs(des_z_val) = rhs(
+des_z_val)*Unit(rad/s); " }{TEXT -1 0 "" }}{PARA 11 "" 1 "" {XPPMATH 
+20 "6#/%\"zG,$*&$\"$T\"!\"#\"\"\"-%%UnitG6#7#*&%$radGF*%\"sG!\"\"F*F*
+" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}}{PARA 0 "" 0 "" 
+{TEXT -1 0 "" }}}{SECT 0 {PARA 5 "" 0 "" {TEXT -1 28 "BB01 Lead Compen
+sator Design" }}{PARA 0 "" 0 "" {TEXT -1 0 "" }}{SECT 0 {PARA 20 "" 0 
+"" {TEXT -1 20 "Closed-loop Equation" }}{PARA 0 "" 0 "" {TEXT -1 0 "" 
+}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 28 "First-order high-pass filter" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 53 "tf_hpf := H(s) = omega[f]*s / (s + \+
+omega[f]):\ntf_hpf;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/-%\"HG6#%\"sG*
+(&%&omegaG6#%\"fG\"\"\"F'F-,&F'F-F)F-!\"\"" }}}{EXCHG {PARA 0 "" 0 "" 
+{TEXT -1 53 "Transfer function of PV control with low-pass filter." }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 144 "tf_bb01_ctrl_pd_bsp := Theta[d](s)
+ = K[c] * ( z*( X[d](s) - X(s) ) +  omega[f]*s/(s+omega[f]) * ( b[sp]*
+X[d](s) - X(s) ) ):\ntf_bb01_ctrl_pd_bsp;" }}{PARA 11 "" 1 "" 
+{XPPMATH 20 "6#/-&%&ThetaG6#%\"dG6#%\"sG*&&%\"KG6#%\"cG\"\"\",&*&%\"zG
+F0,&-&%\"XGF'F)F0-F7F)!\"\"F0F0**&%&omegaG6#%\"fGF0F*F0,&F*F0F;F0F9,&*
+&&%\"bG6#%#spGF0F5F0F0F8F9F0F0F0" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 
+52 "Closed-loop BB01 position control transfer function." }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 146 "tf_bb01_cls_pd_bsp := X(s)/ X[d](s) = collec
+t( solve( subs(theta_d_l_s,tf_bb01_ctrl_pd_bsp,TF_X_THETA), X(s) ), s \+
+) / X[d](s):\ntf_bb01_cls_pd_bsp;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/
+*&-%\"XG6#%\"sG\"\"\"-&F&6#%\"dGF'!\"\"**&%\"KG6#%#bbGF)&F16#%\"cGF),&
+*&,&%\"zGF)*&&%&omegaG6#%\"fGF)&%\"bG6#%#spGF)F)F)F(F)F)*&F:F)F<F)F)F)
+,**$)F(\"\"$F)F)*&)F(\"\"#F)F<F)F)*&,&*(F0F)F4F)F<F)F)*(F0F)F4F)F:F)F)
+F)F(F)F)**F0F)F4F)F:F)F<F)F)F." }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 24 
+"When no set-point weight" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 33 "subs(b
+[sp]=0,tf_bb01_cls_pd_bsp);" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/*&-%\"
+XG6#%\"sG\"\"\"-&F&6#%\"dGF'!\"\"**&%\"KG6#%#bbGF)&F16#%\"cGF),&*&%\"z
+GF)F(F)F)*&F9F)&%&omegaG6#%\"fGF)F)F),**$)F(\"\"$F)F)*&)F(\"\"#F)F;F)F
+)*&,&*(F0F)F4F)F;F)F)*(F0F)F4F)F9F)F)F)F(F)F)**F0F)F4F)F9F)F;F)F)F." }
+}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 16 "BB01 compensator" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 72 "tf_bb01_C_gen := C[bb](s) = Theta[d](s) / (X[d
+](s)-X(s)):\ntf_bb01_C_gen;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/-&%\"C
+G6#%#bbG6#%\"sG*&-&%&ThetaG6#%\"dGF)\"\"\",&-&%\"XGF/F)F1-F5F)!\"\"F7
+" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 8 "Setting " }{XPPEDIT 18 0 "b[sp
+] = 1;" "6#/&%\"bG6#%#spG\"\"\"" }{TEXT -1 20 ", the compensator is" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 134 "tf_bb01_C_pd_bsp := C[bb](s) = co
+llect( simplify( rhs( subs(b[sp]=1,tf_bb01_ctrl_pd_bsp) / ( X[d](s)-X(
+s) ) ) ), s):\ntf_bb01_C_pd_bsp;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/-
+&%\"CG6#%#bbG6#%\"sG*(,&*&,&%\"zG\"\"\"&%&omegaG6#%\"fGF0F0F*F0F0*&F/F
+0F1F0F0F0&%\"KG6#%\"cGF0,&F*F0F1F0!\"\"" }}}{EXCHG {PARA 0 "" 0 "" 
+{TEXT -1 13 "Zero equation" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 61 "eqn_C
+_num := numer( rhs( tf_bb01_C_pd_bsp ) ) = 0:\neqn_C_num;" }}{PARA 11 
+"" 1 "" {XPPMATH 20 "6#/*&,(*&%\"zG\"\"\"%\"sGF(F(*&F'F(&%&omegaG6#%\"
+fGF(F(*&F+F(F)F(F(F(&%\"KG6#%\"cGF(\"\"!" }}}{EXCHG {PARA 0 "" 0 "" 
+{TEXT -1 16 "Location of zero" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 52 "lo
+c_C_zero := z[c] = solve(eqn_C_num,s):\nloc_C_zero;" }}{PARA 11 "" 1 "
+" {XPPMATH 20 "6#/&%\"zG6#%\"cG,$*(F%\"\"\"&%&omegaG6#%\"fGF*,&F%F*F+F
+*!\"\"F0" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 13 "Pole equation" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 61 "eqn_C_den := denom( rhs( tf_bb01_C_
+pd_bsp ) ) = 0:\neqn_C_den;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/,&%\"s
+G\"\"\"&%&omegaG6#%\"fGF&\"\"!" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 16 
+"Location of pole" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 54 "loc_C_pole := \+
+p[c] = solve( eqn_C_den, s):\nloc_C_pole;" }}{PARA 11 "" 1 "" 
+{XPPMATH 20 "6#/&%\"pG6#%\"cG,$&%&omegaG6#%\"fG!\"\"" }}}{EXCHG {PARA 
+11 "" 1 "" {TEXT -1 0 "" }}}}{SECT 0 {PARA 20 "" 0 "" {TEXT -1 60 "Fin
+d Gain, Zero, and Filter Cutoff to Satisfy Specifications" }}{PARA 0 "
+" 0 "" {TEXT -1 0 "" }}{EXCHG {PARA 0 "" 0 "" {TEXT -1 44 "Standard th
+ird-order characteristic equation" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+119 "eqn_char_std_o3_factored := ( s^2 + 2 * zeta * omega[n] * s + ome
+ga[n]^2 ) * ( 1 + T[p]*s ): \neqn_char_std_o3_factored;" }}{PARA 11 "
+" 1 "" {XPPMATH 20 "6#*&,(*$)%\"sG\"\"#\"\"\"F)**F(F)%%zetaGF)&%&omega
+G6#%\"nGF)F'F)F)*$)F,F(F)F)F),&F)F)*&&%\"TG6#%\"pGF)F'F)F)F)" }}}
+{EXCHG {PARA 0 "" 0 "" {TEXT -1 15 "This expands to" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 126 "eqn_char_std_o3 := collect( expand( eqn_char_std_
+o3_factored ) / coeff( eqn_char_std_o3_factored, s, 3), s): \neqn_char
+_std_o3;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#,**$)%\"sG\"\"$\"\"\"F(*(,
+&**\"\"#F(%%zetaGF(&%&omegaG6#%\"nGF(&%\"TG6#%\"pGF(F(F(F(F(F2!\"\"F&F
+,F(*(,&*&)F.F,F(F2F(F(*(F,F(F-F(F.F(F(F(F2F6F&F(F(*&F.F,F2F6F(" }}}
+{EXCHG {PARA 0 "" 0 "" {TEXT -1 23 "Characteristic equation" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 84 "eqn_char_bb_o3 := collect( denom( rhs( tf
+_bb01_cls_pd_bsp ) ) , s ):\neqn_char_bb_o3;" }}{PARA 11 "" 1 "" 
+{XPPMATH 20 "6#,**$)%\"sG\"\"$\"\"\"F(*&)F&\"\"#F(&%&omegaG6#%\"fGF(F(
+*&,&*(&%\"KG6#%#bbGF(&F46#%\"cGF(F,F(F(*(F3F(F7F(%\"zGF(F(F(F&F(F(**F3
+F(F7F(F;F(F,F(F(" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 32 "Required filt
+er cutoff frequency" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 77 "eqn_f_wf := \+
+coeff(eqn_char_bb_o3,s,2) = coeff(eqn_char_std_o3,s,2):\neqn_f_wf;" }}
+{PARA 11 "" 1 "" {XPPMATH 20 "6#/&%&omegaG6#%\"fG*&,&**\"\"#\"\"\"%%ze
+taGF,&F%6#%\"nGF,&%\"TG6#%\"pGF,F,F,F,F,F1!\"\"" }}}{EXCHG {PARA 0 "" 
+0 "" {TEXT -1 13 "Required pole" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "
+des_f_Tp := T[p] = solve(eqn_f_wf,T[p]):\ndes_f_Tp;" }}{PARA 11 "" 1 "
+" {XPPMATH 20 "6#/&%\"TG6#%\"pG*&\"\"\"F),&&%&omegaG6#%\"fGF)*(\"\"#F)
+%%zetaGF)&F,6#%\"nGF)!\"\"F5" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 29 "E
+quation for compensator gain" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 77 "eqn
+_f_Kc := coeff(eqn_char_bb_o3,s,0) = coeff(eqn_char_std_o3,s,0):\neqn_
+f_Kc;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/**&%\"KG6#%#bbG\"\"\"&F&6#%
+\"cGF)%\"zGF)&%&omegaG6#%\"fGF)*&&F/6#%\"nG\"\"#&%\"TG6#%\"pG!\"\"" }}
+}{EXCHG {PARA 0 "" 0 "" {TEXT -1 26 "Equation for zero location" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 75 "eqn_f_z := coeff(eqn_char_bb_o3,s,1
+) = coeff(eqn_char_std_o3,s,1):\neqn_f_z;" }}{PARA 11 "" 1 "" 
+{XPPMATH 20 "6#/,&*(&%\"KG6#%#bbG\"\"\"&F'6#%\"cGF*&%&omegaG6#%\"fGF*F
+**(F&F*F+F*%\"zGF*F**&,&*&)&F/6#%\"nG\"\"#F*&%\"TG6#%\"pGF*F**(F;F*%%z
+etaGF*F8F*F*F*F<!\"\"" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 11 "Needed g
+ain" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "des_f_Kc := K[c] = solve(eqn
+_f_Kc,K[c]):\ndes_f_Kc;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/&%\"KG6#%
+\"cG*,&%&omegaG6#%\"nG\"\"#&%\"TG6#%\"pG!\"\"&F%6#%#bbGF2%\"zGF2&F*6#%
+\"fGF2" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 62 "Subsitute gain equation
+ into zero equation and then solve for " }{XPPEDIT 18 0 "z;" "6#%\"zG
+" }{TEXT -1 1 "." }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 57 "des_f_z := z = \+
+solve(subs(des_f_Kc, eqn_f_z),z):\ndes_f_z;" }}{PARA 11 "" 1 "" 
+{XPPMATH 20 "6#/%\"zG*(&%&omegaG6#%\"nG\"\"\"&F'6#%\"fGF*,(F&!\"\"*(F+
+F*F&F*&%\"TG6#%\"pGF*F**(\"\"#F*F+F*%%zetaGF*F*F/" }}}{EXCHG {PARA 0 "
+" 0 "" {TEXT -1 39 "Manually choose filter cutoff frequency" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 94 "WF_VAL_BB01 := omega[f] = 2*Pi*1.0:\nlhs(
+WF_VAL_BB01) = evalf[3](rhs(WF_VAL_BB01))*Unit(rad/s);" }}{PARA 11 "" 
+1 "" {XPPMATH 20 "6#/&%&omegaG6#%\"fG,$*&$\"$G'!\"#\"\"\"-%%UnitG6#7#*
+&%$radGF-%\"sG!\"\"F-F-" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 18 "Pole t
+ime constant" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 126 "des_f_Tp_val := su
+bs(WN_VAL_BB01,ZETA_VAL_BB01,WF_VAL_BB01,des_f_Tp):\nlhs(des_f_Tp_val)
+ = evalf[3](rhs(des_f_Tp_val))*Unit(s);" }}{PARA 11 "" 1 "" {XPPMATH 
+20 "6#/&%\"TG6#%\"pG,$*&$\"$J#!\"$\"\"\"-%%UnitG6#7#%\"sGF-F-" }}}
+{EXCHG {PARA 0 "" 0 "" {TEXT -1 22 "Evaluate zero location" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 157 "des_f_z_val := evalf[3]( subs( \nWN_VAL_BB
+01, ZETA_VAL_BB01, K_BB_VAL, des_f_Tp_val, WF_VAL_BB01, des_f_z) ):\nl
+hs(des_f_z_val) = rhs(des_f_z_val)*Unit(rad/s);" }}{PARA 11 "" 1 "" 
+{XPPMATH 20 "6#/%\"zG,$*&$\"$G\"!\"#\"\"\"-%%UnitG6#7#*&%$radGF*%\"sG!
+\"\"F*F*" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 25 "Computed compensator \+
+gain" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 161 "des_f_Kc_val := evalf[3]( \+
+subs(MDL_PRM_BB01, WN_VAL_BB01, des_f_Tp_val, WF_VAL_BB01, des_f_z_val
+, des_f_Kc) ):\nlhs(des_f_Kc_val) = rhs(des_f_Kc_val)*Unit(rad/m);" }}
+{PARA 11 "" 1 "" {XPPMATH 20 "6#/&%\"KG6#%\"cG,$*&$\"$c$!\"#\"\"\"-%%U
+nitG6#7#*&%$radGF-%\"mG!\"\"F-F-" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 0 "" }}}}{PARA 0 "" 0 "" {TEXT -1 0 "" }}}{PARA 0 "" 0 "
+" {TEXT -1 0 "" }}}}{SECT 0 {PARA 3 "" 0 "" {TEXT -1 6 "In-Lab" }}
+{PARA 0 "" 0 "" {TEXT -1 37 "This section contains in-lab results." }}
+{SECT 0 {PARA 4 "" 0 "" {TEXT -1 22 "Simulation: Outer-Loop" }}{PARA 
+0 "" 0 "" {TEXT -1 0 "" }}{SECT 0 {PARA 5 "" 0 "" {TEXT -1 19 "Ideal P
+D Simulation" }}{PARA 0 "" 0 "" {TEXT -1 199 "Results from simulating \+
+the closed-loop response of the BB01 plant using its nonlinear model a
+nd the Ideal PD compensator. The SRV02 dynamics are ignored, i.e. only
+ the outer loop is being considered" }}{EXCHG {PARA 0 "" 0 "" {TEXT 
+-1 18 "Steady-state error" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 98 "SIM_ID
+EAL_E_SS := e[ss] = 6.77e-4:\nlhs(SIM_IDEAL_E_SS) = evalf[3]( rhs(SIM_
+IDEAL_E_SS) )*Unit(cm);" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/&%\"eG6#%#
+ssG,$*&$\"$x'!\"'\"\"\"-%%UnitG6#7#%#cmGF-F-" }}}{EXCHG {PARA 0 "" 0 "
+" {TEXT -1 14 "Settling time." }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 76 "SI
+M_IDEAL_TS := t[s] = 3.59:\nlhs(SIM_IDEAL_TS) = rhs(SIM_IDEAL_TS)*Unit
+(s); " }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/&%\"tG6#%\"sG,$*&$\"$f$!\"#
+\"\"\"-%%UnitG6#7#F'F-F-" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 21 "Perce
+ntage overshoot." }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 75 "SIM_IDEAL_PO :=
+ PO = 10.0:\nlhs(SIM_IDEAL_PO) = rhs(SIM_IDEAL_PO)*Unit(\"%\");" }}
+{PARA 11 "" 1 "" {XPPMATH 20 "6#/%#POG,$*&$\"$+\"!\"\"\"\"\"-%%UnitG6#
+7#Q\"%6\"F*F*" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}}
+{PARA 0 "" 0 "" {TEXT -1 0 "" }}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 
+0 "" }}}}{SECT 0 {PARA 4 "" 0 "" {TEXT -1 19 "Simulation: Cascade" }}
+{PARA 0 "" 0 "" {TEXT -1 174 "Results from simulating the closed-loop \+
+response of the SRV02+BB01 plant using its nonlinear model and the ful
+l cascade control system. The SRV02 dynamics are now introduced." }}
+{SECT 0 {PARA 5 "" 0 "" {TEXT -1 19 "Ideal PD Controller" }}{EXCHG 
+{PARA 0 "" 0 "" {TEXT -1 18 "Steady-state error" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 114 "SIM_CASC_IDEAL_E_SS := e[ss] = 0.000311:\nlhs(SIM_CA
+SC_IDEAL_E_SS) = evalf[3]( rhs(SIM_CASC_IDEAL_E_SS) )*Unit(cm);" }}
+{PARA 11 "" 1 "" {XPPMATH 20 "6#/&%\"eG6#%#ssG,$*&$\"$6$!\"'\"\"\"-%%U
+nitG6#7#%#cmGF-F-" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 14 "Settling tim
+e." }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 91 "SIM_CASC_IDEAL_TS := t[s] = 3
+.45:\nlhs(SIM_CASC_IDEAL_TS) = rhs(SIM_CASC_IDEAL_TS)*Unit(s); " }}
+{PARA 11 "" 1 "" {XPPMATH 20 "6#/&%\"tG6#%\"sG,$*&$\"$X$!\"#\"\"\"-%%U
+nitG6#7#F'F-F-" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 20 "Percentage over
+shoot" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 72 "SIM_CASC_PO := PO = 10.9:
+\nlhs(SIM_CASC_PO) = rhs(SIM_CASC_PO)*Unit(\"%\");" }}{PARA 11 "" 1 "
+" {XPPMATH 20 "6#/%#POG,$*&$\"$4\"!\"\"\"\"\"-%%UnitG6#7#Q\"%6\"F*F*" 
+}}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}}{SECT 0 {PARA 5 "" 
+0 "" {TEXT -1 23 "Practical PD Controller" }}{PARA 0 "" 0 "" {TEXT -1 
+38 "PD controller with a high-pass filter." }}{SECT 0 {PARA 20 "" 0 "
+" {TEXT -1 20 "Using Original Gains" }}{PARA 0 "" 0 "" {TEXT -1 42 "Us
+ing originally calcualted control gains." }}{EXCHG {PARA 0 "" 0 "" 
+{TEXT -1 18 "Steady-state error" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 117 
+"SIM_CASC_PRAC_E_SS_1 := e[ss] = 0.000168:\nlhs(SIM_CASC_PRAC_E_SS_1) \+
+= evalf[3]( rhs(SIM_CASC_PRAC_E_SS_1) )*Unit(cm);" }}{PARA 11 "" 1 "" 
+{XPPMATH 20 "6#/&%\"eG6#%#ssG,$*&$\"$o\"!\"'\"\"\"-%%UnitG6#7#%#cmGF-F
+-" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 14 "Settling time." }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 94 "SIM_CASC_PRAC_TS_1 := t[s] = 3.47:\nlhs(SIM_C
+ASC_PRAC_TS_1) = rhs(SIM_CASC_PRAC_TS_1)*Unit(s); " }}{PARA 11 "" 1 "
+" {XPPMATH 20 "6#/&%\"tG6#%\"sG,$*&$\"$Z$!\"#\"\"\"-%%UnitG6#7#F'F-F-
+" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 20 "Percentage overshoot" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 93 "SIM_CASC_PRAC_PO_1 := PO = 11.0:\nl
+hs(SIM_CASC_PRAC_PO_1) = rhs(SIM_CASC_PRAC_PO_1)*Unit(\"%\");" }}
+{PARA 11 "" 1 "" {XPPMATH 20 "6#/%#POG,$*&$\"$5\"!\"\"\"\"\"-%%UnitG6#
+7#Q\"%6\"F*F*" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}}
+{SECT 0 {PARA 20 "" 0 "" {TEXT -1 11 "Tuned Gains" }}{PARA 0 "" 0 "" 
+{TEXT -1 128 "The gains need to be derived from tighter restrictions i
+n order for the closed-loop response to meet the desired specification
+s." }}{PARA 0 "" 0 "" {TEXT -1 0 "" }}{EXCHG {PARA 0 "" 0 "" {TEXT -1 
+27 "Ball and Beam settling time" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 89 "
+SPEC_BB01_TS_TUNE := t[s] = 3.0:\nlhs(SPEC_BB01_TS_TUNE) = rhs(SPEC_BB
+01_TS_TUNE)*Unit(s);" }{TEXT -1 0 "" }}{PARA 11 "" 1 "" {XPPMATH 20 "6
+#/&%\"tG6#%\"sG,$*&$\"#I!\"\"\"\"\"-%%UnitG6#7#F'F-F-" }}}{EXCHG 
+{PARA 0 "" 0 "" {TEXT -1 34 "Ball and beam percentage overshoot" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 89 "SPEC_BB01_PO_TUNE := PO = 7.5:\nlhs
+(SPEC_BB01_PO_TUNE) = rhs(SPEC_BB01_PO_TUNE)*Unit(\"%\");" }}{PARA 11 
+"" 1 "" {XPPMATH 20 "6#/%#POG,$*&$\"#v!\"\"\"\"\"-%%UnitG6#7#Q\"%6\"F*
+F*" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 22 "Computed zero location" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 82 "sim_z_val_tune := z = 1.26:\nlhs(si
+m_z_val_tune) = rhs(sim_z_val_tune)*Unit(rad/s);" }}{PARA 11 "" 1 "" 
+{XPPMATH 20 "6#/%\"zG,$*&$\"$E\"!\"#\"\"\"-%%UnitG6#7#*&%$radGF*%\"sG!
+\"\"F*F*" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 25 "Computed compensator \+
+gain" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 88 "sim_Kc_val_tune := K[c] = 3
+.96:\nlhs(sim_Kc_val_tune) = rhs(sim_Kc_val_tune)*Unit(rad/m);" }}
+{PARA 11 "" 1 "" {XPPMATH 20 "6#/&%\"KG6#%\"cG,$*&$\"$'R!\"#\"\"\"-%%U
+nitG6#7#*&%$radGF-%\"mG!\"\"F-F-" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 
+37 "Resulting response steady-state error" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 115 "SIM_CASC_PRAC_E_SS_2 := e[ss] = 7.3e-5:\nlhs(SIM_CAS
+C_PRAC_E_SS_2) = evalf[3]( rhs(SIM_CASC_PRAC_E_SS_2) )*Unit(cm);" }}
+{PARA 11 "" 1 "" {XPPMATH 20 "6#/&%\"eG6#%#ssG,$*&$\"#t!\"'\"\"\"-%%Un
+itG6#7#%#cmGF-F-" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 32 "Resulting res
+ponse settling time" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 93 "SIM_CASC_PRA
+C_TS_2 := t[s] = 3.2:\nlhs(SIM_CASC_PRAC_TS_2) = rhs(SIM_CASC_PRAC_TS_
+2)*Unit(s); " }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/&%\"tG6#%\"sG,$*&$\"#
+K!\"\"\"\"\"-%%UnitG6#7#F'F-F-" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 39 
+"Resulting response percentage overshoot" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 93 "SIM_CASC_PRAC_PO_2 := PO = 7.99:\nlhs(SIM_CASC_PRAC_P
+O_2) = rhs(SIM_CASC_PRAC_PO_2)*Unit(\"%\");" }{TEXT -1 0 "" }}{PARA 
+11 "" 1 "" {XPPMATH 20 "6#/%#POG,$*&$\"$*z!\"#\"\"\"-%%UnitG6#7#Q\"%6
+\"F*F*" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}{PARA 0 "" 0 
+"" {TEXT -1 0 "" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}}
+{PARA 0 "" 0 "" {TEXT -1 0 "" }}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 
+0 "" }}}}{SECT 0 {PARA 4 "" 0 "" {TEXT -1 14 "Implementation" }}{PARA 
+0 "" 0 "" {TEXT -1 67 "Implementing the cascade controller with varyin
+g set-point weights." }}{PARA 0 "" 0 "" {TEXT -1 0 "" }}{SECT 0 {PARA 
+5 "" 0 "" {TEXT -1 41 "With Gains Previously Tuned in Simulation" }}
+{PARA 0 "" 0 "" {TEXT -1 0 "" }}{EXCHG {PARA 0 "" 0 "" {TEXT -1 18 "St
+eady-state error" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 88 "IMPL_E_SS_1 := \+
+e[ss] = -0.225:\nlhs(IMPL_E_SS_1) = evalf[3]( rhs(IMPL_E_SS_1) )*Unit(
+cm);" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/&%\"eG6#%#ssG,$*&$\"$D#!\"$\"
+\"\"-%%UnitG6#7#%#cmGF-!\"\"" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 14 "S
+ettling time." }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 67 "IMPL_TS_1 := t[s] \+
+= 3.72:\nlhs(IMPL_TS_1) = rhs(IMPL_TS_1)*Unit(s); " }}{PARA 11 "" 1 "
+" {XPPMATH 20 "6#/&%\"tG6#%\"sG,$*&$\"$s$!\"#\"\"\"-%%UnitG6#7#F'F-F-
+" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 20 "Percentage overshoot" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 66 "IMPL_PO_1 := PO = 12.9:\nlhs(IMPL_P
+O_1) = rhs(IMPL_PO_1)*Unit(\"%\");" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#
+/%#POG,$*&$\"$H\"!\"\"\"\"\"-%%UnitG6#7#Q\"%6\"F*F*" }}}{EXCHG {PARA 
+0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}}{SECT 0 {PARA 5 "" 0 "" {TEXT -1 17 
+"Additional Tuning" }}{PARA 0 "" 0 "" {TEXT -1 56 "Percentage overshoo
+t is lowered to generate other gains." }}{PARA 0 "" 0 "" {TEXT -1 0 "
+" }}{EXCHG {PARA 0 "" 0 "" {TEXT -1 27 "Ball and Beam settling time" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 95 "SPEC_BB01_TS_TUNE_2 := t[s] = 3.0:
+\nlhs(SPEC_BB01_TS_TUNE_2) = rhs(SPEC_BB01_TS_TUNE_2)*Unit(s);" }
+{TEXT -1 0 "" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/&%\"tG6#%\"sG,$*&$\"#
+I!\"\"\"\"\"-%%UnitG6#7#F'F-F-" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 34 
+"Ball and beam percentage overshoot" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+95 "SPEC_BB01_PO_TUNE_2 := PO = 6.5:\nlhs(SPEC_BB01_PO_TUNE_2) = rhs(S
+PEC_BB01_PO_TUNE_2)*Unit(\"%\");" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/%
+#POG,$*&$\"#l!\"\"\"\"\"-%%UnitG6#7#Q\"%6\"F*F*" }}}{EXCHG {PARA 0 "" 
+0 "" {TEXT -1 22 "Computed zero location" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 85 "impl_z_val_tune := z = 1.20:\nlhs(impl_z_val_tune) = \+
+rhs(impl_z_val_tune)*Unit(rad/s);" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/
+%\"zG,$*&$\"$?\"!\"#\"\"\"-%%UnitG6#7#*&%$radGF*%\"sG!\"\"F*F*" }}}
+{EXCHG {PARA 0 "" 0 "" {TEXT -1 25 "Computed compensator gain" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 91 "impl_Kc_val_tune := K[c] = 3.95:\nl
+hs(impl_Kc_val_tune) = rhs(impl_Kc_val_tune)*Unit(rad/m);" }}{PARA 11 
+"" 1 "" {XPPMATH 20 "6#/&%\"KG6#%\"cG,$*&$\"$&R!\"#\"\"\"-%%UnitG6#7#*
+&%$radGF-%\"mG!\"\"F-F-" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 18 "Steady
+-state error" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 88 "IMPL_E_SS_2 := e[ss
+] = -0.396:\nlhs(IMPL_E_SS_2) = evalf[3]( rhs(IMPL_E_SS_2) )*Unit(cm);
+" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/&%\"eG6#%#ssG,$*&$\"$'R!\"$\"\"\"
+-%%UnitG6#7#%#cmGF-!\"\"" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 14 "Settl
+ing time." }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 67 "IMPL_TS_2 := t[s] = 3.
+09:\nlhs(IMPL_TS_2) = rhs(IMPL_TS_2)*Unit(s); " }}{PARA 11 "" 1 "" 
+{XPPMATH 20 "6#/&%\"tG6#%\"sG,$*&$\"$4$!\"#\"\"\"-%%UnitG6#7#F'F-F-" }
+}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 20 "Percentage overshoot" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 66 "IMPL_PO_2 := PO = 9.16:\nlhs(IMPL_PO_2) = r
+hs(IMPL_PO_2)*Unit(\"%\");" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/%#POG,$
+*&$\"$;*!\"#\"\"\"-%%UnitG6#7#Q\"%6\"F*F*" }}}{EXCHG {PARA 0 "> " 0 "
+" {MPLTEXT 1 0 0 "" }}}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}
+}{SECT 0 {PARA 4 "" 0 "" {TEXT -1 13 "Measured Step" }}{PARA 0 "" 0 "
+" {TEXT -1 0 "" }}{EXCHG {PARA 0 "" 0 "" {TEXT -1 18 "Steady-state err
+or" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 86 "MEAS_STEP_E_SS := e[ss] = 0.0
+133:\nlhs(MEAS_STEP_E_SS) = rhs(MEAS_STEP_E_SS)*Unit(rad);" }}{PARA 
+11 "" 1 "" {XPPMATH 20 "6#/&%\"eG6#%#ssG,$*&$\"$L\"!\"%\"\"\"-%%UnitG6
+#7#%$radGF-F-" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 10 "Peak time." }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 77 "MEAS_STEP_TP := t[p] = 0.079:\nlhs(
+MEAS_STEP_TP) = rhs(MEAS_STEP_TP)*Unit(s); " }}{PARA 11 "" 1 "" 
+{XPPMATH 20 "6#/&%\"tG6#%\"pG,$*&$\"#z!\"$\"\"\"-%%UnitG6#7#%\"sGF-F-
+" }}}{PARA 0 "" 0 "" {TEXT -1 40 "Ideal PV response: percentage oversh
+oot." }}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 75 "MEAS_STEP_PO := PO =
+ 4.49:\nlhs(MEAS_STEP_PO) = rhs(MEAS_STEP_PO)*Unit(\"%\");" }{TEXT -1 
+0 "" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/%#POG,$*&$\"$\\%!\"#\"\"\"-%%U
+nitG6#7#Q\"%6\"F*F*" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}
+}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}{EXCHG {PARA 0 "> " 0 
+"" {MPLTEXT 1 0 0 "" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}{EXCHG {PARA 0 "> " 0 "
+" {MPLTEXT 1 0 0 "" }}}}{MARK "0" 0 }{VIEWOPTS 1 1 0 1 1 1803 1 1 1 1 
+}{PAGENUMBERS 0 1 2 33 1 1 }
